@@ -1,6 +1,7 @@
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import MobileNav from "./MobileNav";
 import ModeToggle from "./ModeToggle";
 
 const NavBar = () => {
@@ -32,6 +33,7 @@ const NavBar = () => {
             }}
           />
         </SignedIn>
+        <MobileNav />
       </div>
     </nav>
   );

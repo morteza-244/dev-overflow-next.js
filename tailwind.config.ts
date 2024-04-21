@@ -14,7 +14,6 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        "xs": "480px",
         "2xl": "1400px",
       },
     },
@@ -28,6 +27,8 @@ const config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          500: "#FF7000",
+          100: "#FFF1E6",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -52,6 +53,21 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        dark: {
+          100: "#000000",
+          200: "#0F1117",
+          300: "#151821",
+          400: "#212734",
+          500: "#101012",
+        },
+        light: {
+          900: "#FFFFFF",
+          800: "#F4F6F8",
+          850: "#FDFDFD",
+          700: "#DCE3F1",
+          500: "#7B8EC8",
+          400: "#858EAD",
         },
       },
       borderRadius: {
