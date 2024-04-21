@@ -1,6 +1,7 @@
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import ModeToggle from "./ModeToggle";
 
 const NavBar = () => {
   return (
@@ -17,6 +18,7 @@ const NavBar = () => {
         </p>
       </Link>
       <div className="flex justify-between items-center gap-5">
+        <ModeToggle />
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
