@@ -53,7 +53,7 @@ const NavContent = () => {
 const MobileNav = () => {
   return (
     <Sheet>
-      <SheetTrigger asChild className="md:hidden">
+      <SheetTrigger asChild className="sm:hidden">
         <Button variant="ghost" size={"icon"}>
           <Menu />
         </Button>

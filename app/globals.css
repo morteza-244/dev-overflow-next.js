@@ -65,6 +65,9 @@
   .flex-start {
     @apply flex justify-start items-center;
   }
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
   .invert-colors {
     @apply invert dark:invert-0;
   }
