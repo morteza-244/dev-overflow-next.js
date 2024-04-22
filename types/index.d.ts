@@ -9,3 +9,8 @@ export interface Tag {
   name: string;
   totalQuestions: number;
 }
+
+export interface Filters {
+  name: string;
+  value: string;
+}
