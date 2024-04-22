@@ -63,7 +63,7 @@
     background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
   }
   .flex-start {
-    @apply flex justify-start items-center;
+    @apply flex sm:justify-center lg:justify-start items-center;
   }
   .flex-between {
     @apply flex justify-between items-center;
@@ -73,5 +73,23 @@
   }
   .text-dark300_light900 {
     @apply text-dark-300 dark:text-light-900 !important;
+  }
+  .background-light900_dark200 {
+    @apply bg-light-900 dark:bg-dark-200;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 50px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 }

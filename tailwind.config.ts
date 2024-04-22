@@ -70,6 +70,14 @@ const config = {
           400: "#858EAD",
         },
       },
+      boxShadow: {
+        "light-100":
+          "0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px",
+        "light-200": "10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
+        "light-300": "-10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
+        "dark-100": "0px 2px 10px 0px rgba(46, 52, 56, 0.10)",
+        "dark-200": "2px 0px 20px 0px rgba(39, 36, 36, 0.04)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
