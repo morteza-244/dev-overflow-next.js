@@ -71,11 +71,41 @@
   .invert-colors {
     @apply invert dark:invert-0;
   }
+  .text-dark500_light700 {
+    @apply text-dark-500 dark:text-light-700 !important;
+  }
   .text-dark300_light900 {
     @apply text-dark-300 dark:text-light-900 !important;
   }
+  .text-light400_light500 {
+    @apply text-light-400 dark:text-light-500 !important;
+  }
   .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
+  }
+  .background-light800_dark300 {
+    @apply bg-light-800 dark:bg-dark-300 !important;
+  }
+  h1-bold {
+    @apply text-[30px] font-bold leading-[42px] tracking-tighter;
+  }
+  .h2-bold {
+    @apply text-[24px] font-bold leading-[31.2px];
+  }
+  .h2-semibold {
+    @apply text-[24px] font-semibold leading-[31.2px];
+  }
+  .h3-bold {
+    @apply text-[20px] font-bold leading-[26px];
+  }
+  .body-medium {
+    @apply text-[14px] font-medium leading-[18.2px];
+  }
+  .subtle-medium {
+    @apply text-[10px] font-medium leading-[13px] !important;
+  }
+  .small-medium {
+    @apply text-[12px] font-medium leading-[15.6px];
   }
   .custom-scrollbar::-webkit-scrollbar {
     width: 3px;

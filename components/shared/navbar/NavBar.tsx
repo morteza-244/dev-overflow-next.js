@@ -7,7 +7,7 @@ import ModeToggle from "./ModeToggle";
 
 const NavBar = () => {
   return (
-    <nav className="flex justify-between items-center bg-[#ffffff] dark:bg-[#0F1117] fixed z-50 w-full gap-5 p-6 shadow-lg dark:shadow-none sm:px-12">
+    <nav className="flex justify-between items-center bg-[#ffffff] dark:bg-[#0F1117] fixed z-50 w-full gap-5 p-6 shadow-md dark:shadow-none sm:px-12">
       <Link href={"/"} className="flex items-center gap-1 max-sm:hidden">
         <Image
           src={"/assets/images/site-logo.svg"}

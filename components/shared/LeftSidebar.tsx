@@ -10,7 +10,7 @@ const LeftSidebar = () => {
   const pathname = usePathname();
   
   return (
-    <section className="background-light900_dark200 sticky left-0 top-0 flex flex-col h-screen justify-between overflow-y-auto border-gray-700 border-r p-5 pt-32 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px] custom-scrollbar">
+    <section className="background-light900_dark200 sticky left-0 top-0 flex flex-col h-screen justify-between overflow-y-auto dark:border-gray-700 dark:border-r p-5 pt-32 shadow-md dark:shadow-none max-sm:hidden lg:w-[266px] custom-scrollbar">
       <div className="flex flex-1 flex-col gap-2">
         {sidebarLinks.map((link) => {
           const isActive =
