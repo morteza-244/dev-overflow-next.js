@@ -68,6 +68,9 @@
   .flex-between {
     @apply flex justify-between items-center;
   }
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
   .invert-colors {
     @apply invert dark:invert-0;
   }
@@ -79,6 +82,12 @@
   }
   .text-light400_light500 {
     @apply text-light-400 dark:text-light-500 !important;
+  }
+  .text-dark500_light700 {
+    @apply text-dark-500 dark:text-light-700 !important;
+  }
+  .text-dark200_light900 {
+    @apply text-dark-200 dark:text-light-900;
   }
   .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
@@ -101,8 +110,17 @@
   .h3-bold {
     @apply text-[20px] font-bold leading-[26px];
   }
+  .h3-semibold {
+    @apply text-[17px] font-semibold leading-[24.8px];
+  }
+  .base-semibold {
+    @apply font-semibold leading-[25.2px];
+  }
   .body-medium {
     @apply text-[14px] font-medium leading-[18.2px];
+  }
+  .body-regular {
+    @apply text-[14px] font-normal leading-[19.6px];
   }
   .subtle-medium {
     @apply text-[10px] font-medium leading-[13px] !important;
@@ -116,8 +134,14 @@
   .text-dark400_light700 {
     @apply text-dark-400 dark:text-light-700;
   }
+  .subtle-regular {
+    @apply text-[10px] font-normal leading-[13px];
+  }
   .no-focus {
     @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+  }
+  .card-wrapper {
+    @apply bg-white shadow-md dark:bg-muted dark:shadow-none;
   }
   .custom-scrollbar::-webkit-scrollbar {
     width: 3px;
