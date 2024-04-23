@@ -12,9 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { questionFormSchema, TQuestionFormData } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Editor } from "@tinymce/tinymce-react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
-
 const QuestionForm = () => {
+  const editorRef = useRef(null);
   const form = useForm<TQuestionFormData>({
     resolver: zodResolver(questionFormSchema),
     defaultValues: {
@@ -23,6 +25,11 @@ const QuestionForm = () => {
       tags: [],
     },
   });
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
   const onSubmit = (data: TQuestionFormData) => {
     console.log(data);
   };
@@ -53,7 +60,44 @@ const QuestionForm = () => {
             <FormItem>
               <FormLabel>Detailed explanation of your problem</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Editor
+                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR__API_KEY}
+                  onInit={(_evt, editor) => {
+                    // @ts-ignore
+                    editorRef.current = editor;
+                  }}
+                  initialValue=""
+                  init={{
+                    height: 350,
+                    menubar: false,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "codesample",
+                      "help",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "codesample | bold italic forecolor | alignleft aligncenter |" +
+                      "alignright alignjustify | bullist numlist ",
+                    content_style:
+                      "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
+                  }}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Be specific and imagine you're asking a question to another
