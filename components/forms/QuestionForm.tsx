@@ -17,6 +17,7 @@ import { X } from "lucide-react";
 import { KeyboardEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Badge } from "../ui/badge";
+import { createQuestion } from "@/lib/actions/question.action";
 const QuestionForm = () => {
   const editorRef = useRef(null);
   const form = useForm<TQuestionFormData>({
@@ -27,9 +28,12 @@ const QuestionForm = () => {
       tags: [],
     },
   });
-  
-  const onSubmit = (data: TQuestionFormData) => {
-    console.log(data);
+
+  const onSubmit = async (data: TQuestionFormData) => {
+    try {
+      await createQuestion();
+      console.log(data);
+    } catch (error) {}
   };
 
   const handleInputKeyDown = (
@@ -64,7 +68,6 @@ const QuestionForm = () => {
     const newTags = field.value.filter((t: string) => t !== tag);
     form.setValue("tags", newTags);
   };
-
 
   return (
     <Form {...form}>
