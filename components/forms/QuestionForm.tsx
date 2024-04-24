@@ -10,15 +10,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createQuestion } from "@/lib/actions/question.action";
 import { questionFormSchema, TQuestionFormData } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { KeyboardEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Badge } from "../ui/badge";
-import { createQuestion } from "@/lib/actions/question.action";
-const QuestionForm = () => {
+
+interface QuestionFormProps {
+  currentUserId: string;
+}
+
+const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const editorRef = useRef(null);
   const form = useForm<TQuestionFormData>({
     resolver: zodResolver(questionFormSchema),
@@ -31,7 +39,14 @@ const QuestionForm = () => {
 
   const onSubmit = async (data: TQuestionFormData) => {
     try {
-      await createQuestion();
+      await createQuestion({
+        title: data.title,
+        content: data.explanation,
+        tags: data.tags,
+        author: currentUserId,
+        path: pathname,
+      });
+      router.push("/");
       console.log(data);
     } catch (error) {}
   };
