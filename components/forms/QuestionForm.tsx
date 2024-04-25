@@ -43,11 +43,10 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
         title: data.title,
         content: data.explanation,
         tags: data.tags,
-        author: currentUserId,
+        author: JSON.parse(currentUserId),
         path: pathname,
       });
       router.push("/");
-      console.log(data);
     } catch (error) {}
   };
 

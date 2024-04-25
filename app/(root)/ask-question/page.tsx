@@ -3,7 +3,6 @@ import { getUserById } from "@/lib/actions/user.action";
 const AskQuestion = async () => {
   const userId = "CL1234";
   const currentUser = await getUserById({ userId });
-  console.log(currentUser);
 
   return (
     <div>
