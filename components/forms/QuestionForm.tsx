@@ -96,7 +96,7 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
               <FormDescription>
-                Be specific and imagine you're asking a question to another
+                Be specific and imagine you are asking a question to another
                 person.
               </FormDescription>
               <FormMessage className="text-red-600" />
