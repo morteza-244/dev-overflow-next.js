@@ -171,7 +171,7 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
                   {field.value.length > 0 && (
                     <div className="flex gap-2 flex-wrap">
                       {field.value.map((tag) => (
-                        <Badge className="bg-slate-200 text-slate-600 dark:bg-muted dark:text-slate-400 flex-center gap-1 rounded-md border-none py-2 capitalize active:scale-95 transition-all">
+                        <Badge key={tag} className="bg-slate-200 text-slate-600 dark:bg-muted dark:text-slate-400 flex-center gap-1 rounded-md border-none py-2 capitalize active:scale-95 transition-all">
                           {tag}
                           <X
                             size={15}

@@ -27,11 +27,11 @@ const topQuestions = [
 ];
 
 const tags = [
-  { _id: 1, name: "javaScript", totalQuestions: 5 },
-  { _id: 2, name: "react.js", totalQuestions: 3 },
-  { _id: 3, name: "next.js", totalQuestions: 10 },
-  { _id: 4, name: "typeScript", totalQuestions: 7 },
-  { _id: 5, name: "vue.js", totalQuestions: 2 },
+  { _id: "1", name: "javaScript"},
+  { _id: "2", name: "react.js"},
+  { _id: "3", name: "next.js"},
+  { _id: "4", name: "typeScript"},
+  { _id: "5", name: "vue.js"},
 ];
 
 const RightSidebar = () => {
