@@ -1,8 +1,10 @@
 import FilterSelector from "@/components/shared/FilterSelector";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { userFilters } from "@/constants/filters";
+import { getUsers } from "@/lib/actions/user.action";
 
-const Community = () => {
+const Community = async () => {
+  const data = await getUsers({});
   return (
     <>
       <div className="space-y-6">
@@ -16,6 +18,13 @@ const Community = () => {
           />
           <FilterSelector filters={userFilters} />
         </div>
+        <section className="flex flex-wrap gap-4">
+          {!data.users.length ? (
+            <p>No users yet</p>
+          ) : (
+            data.users.map((user) => <p>{user.name}</p>)
+          )}
+        </section>
       </div>
     </>
   );
