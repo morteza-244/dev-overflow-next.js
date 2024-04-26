@@ -27,11 +27,11 @@ const Metric = ({
         <Image
           src={imgUrl}
           alt={alt}
-          width={16}
-          height={16}
-          className={`object-contain ${href ? "rounded-full" : ""}`}
+          width={20}
+          height={20}
+          className={`object-cover ${href ? "rounded-full" : " "}`}
         />
-        <div className={`${textStyles} flex items-center gap-1`}>
+        <div className={`${textStyles} flex items-center gap-1 text-sm`}>
           <span>{formatAndDivideNumber(value as number)}</span>
           <span className={`line-clamp-1 ${isAuthor ? "max-sm:hidden" : ""}`}>
             {title}
@@ -43,7 +43,7 @@ const Metric = ({
 
   if (href) {
     return (
-      <Link href={href} className="flex-center flex-wrap gap-1">
+      <Link href={href} className="flex gap-1">
         <MetricContent />
       </Link>
     );

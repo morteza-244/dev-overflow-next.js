@@ -1,4 +1,4 @@
-import { getTimestamp } from "@/lib/utils";
+import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 import { Tag } from "@/types";
 import Link from "next/link";
 import Metric from "../shared/Metric";
@@ -14,7 +14,7 @@ interface QuestionCardProps {
     picture: string;
     clerkId: string;
   };
-  upVotes: string;
+  upVotes: number;
   answers: number;
   createdAt: Date;
   views: number;
@@ -31,10 +31,10 @@ const QuestionCard = ({
   views,
 }: QuestionCardProps) => {
   return (
-    <div className="card-wrapper p-9 sm:px-11 rounded-[10px]">
+    <div className="card-wrapper p-5 rounded-lg">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
-          <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
+          <span className="text-[14px] text-dark400_light700 line-clamp-1 flex sm:hidden">
             {getTimestamp(createdAt)}
           </span>
           <Link href={`/question/${_id}`}>
@@ -44,41 +44,37 @@ const QuestionCard = ({
           </Link>
         </div>
       </div>
-      <div className="mt-3 5 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         {tags.map((tag) => (
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>
-      <div className="flex-between mt-6 w-full flex-wrap gap-3">
+      <div className="flex-between mt-5 w-full flex-wrap gap-2.5">
         <Metric
-          imgUrl="/assets/icons/avatar.svg"
+          imgUrl={author.picture}
           alt="avatar"
           value={author.name}
           href={`/profile/${author._id}`}
           isAuthor
-          title={" - 1 hour ago"}
-          textStyles="text-sm"
+          title={` - asked ${getTimestamp(createdAt)}`}
         />
         <Metric
           imgUrl="/assets/icons/like.svg"
-          alt="Upvotes"
-          value={upVotes}
+          alt="upVotes"
+          value={formatAndDivideNumber(upVotes)}
           title={"Votes"}
-          textStyles="text-sm"
         />
         <Metric
           imgUrl="/assets/icons/message.svg"
           alt="message"
-          value={answers}
+          value={formatAndDivideNumber(answers)}
           title={"Answers"}
-          textStyles="text-sm"
         />
         <Metric
           imgUrl="/assets/icons/eye.svg"
           alt="eye"
-          value={views}
+          value={formatAndDivideNumber(views)}
           title={"Views"}
-          textStyles="text-sm"
         />
       </div>
     </div>
