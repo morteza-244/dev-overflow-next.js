@@ -1,3 +1,4 @@
+import UserCard from "@/components/cards/UserCard";
 import FilterSelector from "@/components/shared/FilterSelector";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { userFilters } from "@/constants/filters";
@@ -18,11 +19,11 @@ const Community = async () => {
           />
           <FilterSelector filters={userFilters} />
         </div>
-        <section className="flex flex-wrap gap-4">
+        <section className="grid xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 gap-4">
           {!data.users.length ? (
             <p>No users yet</p>
           ) : (
-            data.users.map((user) => <p>{user.name}</p>)
+            data.users.map((user) => <UserCard key={user._id} user={user} />)
           )}
         </section>
       </div>
