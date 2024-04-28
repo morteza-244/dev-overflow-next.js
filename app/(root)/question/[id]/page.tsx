@@ -1,3 +1,4 @@
+import AnswerForm from "@/components/forms/AnswerForm";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
@@ -18,7 +19,7 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
     questionId: params.id,
   });
   return (
-    <>
+    <div className="space-y-6">
       <div className="flex justify-start items-center w-full flex-col">
         <div className="w-full flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
@@ -42,7 +43,7 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
           {data.title}
         </h2>
       </div>
-      <div className="my-5 flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4">
         <Metric
           imgUrl="/assets/icons/clock.svg"
           alt="clock icon"
@@ -68,7 +69,8 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>
-    </>
+      <AnswerForm />
+    </div>
   );
 };
 

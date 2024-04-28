@@ -5,3 +5,8 @@ export const questionFormSchema = z.object({
   tags: z.array(z.string().min(1).max(15)).min(1).max(3),
 });
 export type TQuestionFormData = z.infer<typeof questionFormSchema>;
+
+export const answerSchema = z.object({
+  answer: z.string().min(5, {message: "Answer must be 5 character"}),
+});
+export type TAnswerFormData = z.infer<typeof answerSchema>;

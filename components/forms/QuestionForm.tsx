@@ -1,4 +1,5 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,12 +14,11 @@ import { Input } from "@/components/ui/input";
 import { createQuestion } from "@/lib/actions/question.action";
 import { questionFormSchema, TQuestionFormData } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { KeyboardEvent, useRef } from "react";
+import { KeyboardEvent } from "react";
 import { useForm } from "react-hook-form";
-import { Badge } from "../ui/badge";
+import TinyEditor from "../shared/TinyEditor";
 
 interface QuestionFormProps {
   currentUserId: string;
@@ -27,7 +27,6 @@ interface QuestionFormProps {
 const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const editorRef = useRef(null);
   const form = useForm<TQuestionFormData>({
     resolver: zodResolver(questionFormSchema),
     defaultValues: {
@@ -110,43 +109,7 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
             <FormItem>
               <FormLabel>Detailed explanation of your problem</FormLabel>
               <FormControl>
-                <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR__API_KEY}
-                  onInit={(_evt, editor) => {
-                    // @ts-ignore
-                    editorRef.current = editor;
-                  }}
-                  onBlur={field.onBlur}
-                  onEditorChange={(content) => field.onChange(content)}
-                  initialValue=""
-                  init={{
-                    height: 350,
-                    menubar: false,
-                    browser_spellcheck: true,
-                    plugins: [
-                      "advlist",
-                      "autolink",
-                      "lists",
-                      "link",
-                      "image",
-                      "charmap",
-                      "preview",
-                      "anchor",
-                      "searchreplace",
-                      "visualblocks",
-                      "codesample",
-                      "fullscreen",
-                      "insertdatetime",
-                      "media",
-                      "table",
-                    ],
-                    toolbar:
-                      "undo redo | " +
-                      "codesample | bold italic forecolor | alignleft aligncenter |" +
-                      "alignright alignjustify | bullist numlist",
-                    content_style: "body { font-family:Inter; font-size:16px }",
-                  }}
-                />
+                <TinyEditor field={field} />
               </FormControl>
               <FormDescription>
                 Introduce the problem and expand on what you put in the title.
@@ -171,7 +134,10 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
                   {field.value.length > 0 && (
                     <div className="flex gap-2 flex-wrap">
                       {field.value.map((tag) => (
-                        <Badge key={tag} className="bg-slate-200 text-slate-600 dark:bg-muted dark:text-slate-400 flex-center gap-1 rounded-md border-none py-2 capitalize active:scale-95 transition-all">
+                        <Badge
+                          key={tag}
+                          className="bg-slate-200 text-slate-600 dark:bg-muted dark:text-slate-400 flex-center gap-1 rounded-md border-none py-2 capitalize active:scale-95 transition-all"
+                        >
                           {tag}
                           <X
                             size={15}
