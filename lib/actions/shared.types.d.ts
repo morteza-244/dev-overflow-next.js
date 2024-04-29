@@ -16,6 +16,14 @@ export interface CreateQuestionParams {
   path: string;
 }
 
+export interface QuestionVoteParams {
+  questionId: string;
+  userId: string;
+  hasUpVoted: boolean;
+  hasDownVoted: boolean;
+  path: string;
+}
+
 export interface GetUserByIdParams {
   userId: string;
 }
