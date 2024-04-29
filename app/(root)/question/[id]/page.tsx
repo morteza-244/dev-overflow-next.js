@@ -3,8 +3,10 @@ import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
+import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 import { Tag } from "@/types";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +19,10 @@ interface QuestionDetailProps {
 const QuestionDetail = async ({ params }: QuestionDetailProps) => {
   const data = await getQuestionById({
     questionId: params.id,
+  });
+  const { userId: clerkId } = auth();
+  const currentUser = await getUserById({
+    userId: clerkId!,
   });
   return (
     <div className="space-y-6">
@@ -69,7 +75,10 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>
-      <AnswerForm />
+      <AnswerForm
+        questionId={JSON.stringify(data._id)}
+        authorId={JSON.stringify(currentUser._id)}
+      />
     </div>
   );
 };

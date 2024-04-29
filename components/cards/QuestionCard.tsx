@@ -15,7 +15,7 @@ interface QuestionCardProps {
     clerkId: string;
   };
   upVotes: number;
-  answers: number;
+  answers: number[];
   createdAt: Date;
   views: number;
 }
@@ -67,7 +67,7 @@ const QuestionCard = ({
         <Metric
           imgUrl="/assets/icons/message.svg"
           alt="message"
-          value={formatAndDivideNumber(answers)}
+          value={formatAndDivideNumber(answers.length)}
           title={"Answers"}
         />
         <Metric

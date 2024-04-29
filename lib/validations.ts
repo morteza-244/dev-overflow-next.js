@@ -7,6 +7,6 @@ export const questionFormSchema = z.object({
 export type TQuestionFormData = z.infer<typeof questionFormSchema>;
 
 export const answerSchema = z.object({
-  answer: z.string().min(5, {message: "Answer must be 5 character"}),
+  answer: z.string().min(100, {message: "Answer must be 100 character"}),
 });
 export type TAnswerFormData = z.infer<typeof answerSchema>;

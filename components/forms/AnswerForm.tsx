@@ -8,15 +8,24 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { createAnswer } from "@/lib/actions/answer.action";
 import { answerSchema, TAnswerFormData } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SubmitLoading from "../shared/SubmitLoading";
 
-const AnswerForm = () => {
+interface AnswerFormProps {
+  authorId: string;
+  questionId: string;
+}
+
+const AnswerForm = ({ authorId, questionId }: AnswerFormProps) => {
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const form = useForm<TAnswerFormData>({
     resolver: zodResolver(answerSchema),
     defaultValues: {
@@ -24,8 +33,20 @@ const AnswerForm = () => {
     },
   });
 
-  const onSubmit = (data: TAnswerFormData) => {
-    console.log(data.answer.length);
+  const onSubmit = async (data: TAnswerFormData) => {
+    try {
+      setIsSubmitting(true);
+      await createAnswer({
+        author: JSON.parse(authorId),
+        content: data.answer,
+        path: pathname,
+        question: JSON.parse(questionId),
+      });
+    } catch (error) {
+      setErrorMessage("Your answer was not sent");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -34,6 +55,7 @@ const AnswerForm = () => {
         <h4 className="text-dark500_light700 paragraph-semibold">
           Write your answer here
         </h4>
+        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         <Button size={"sm"} variant={"secondary"} className="text-primary-500">
           <Sparkles size={20} className="mr-2" />
           Generate an AI Answer

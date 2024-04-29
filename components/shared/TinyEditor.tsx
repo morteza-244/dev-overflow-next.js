@@ -47,8 +47,8 @@ const TinyEditor = <T extends FieldValues>({ field }: TinyEditorProps<T>) => {
           "codesample | bold italic forecolor | alignleft aligncenter |" +
           "alignright alignjustify | bullist numlist",
         content_style: "body { font-family:Inter; font-size:16px }",
-        skin: theme === 'dark' ? 'oxide-dark' : 'oxide',
-        content_css: theme === 'dark' ? 'dark' : 'light', 
+        skin: theme === "dark" ? "oxide-dark" : "oxide",
+        content_css: theme === "dark" ? "dark" : "light",
       }}
     />
   );
