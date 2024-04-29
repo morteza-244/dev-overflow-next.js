@@ -1,7 +1,8 @@
-import { Document, model, Schema } from "mongoose";
+import { Document, Model, model, models, Schema } from "mongoose";
+import { IUser } from "./user.model";
 
 export interface IAnswer extends Document {
-  author: Schema.Types.ObjectId;
+  author: IUser;
   question: Schema.Types.ObjectId;
   upVotes: Schema.Types.ObjectId[];
   downVotes: Schema.Types.ObjectId[];
@@ -18,5 +19,5 @@ const AnswerSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Answer = model("Answer", AnswerSchema);
+const Answer: Model<IAnswer> = models.Answer || model<IAnswer>("Answer", AnswerSchema);
 export default Answer;

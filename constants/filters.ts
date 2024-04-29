@@ -17,3 +17,10 @@ export const tagFilters = [
   { name: "Name", value: "name" },
   { name: "Old", value: "old" },
 ];
+
+export const AnswerFilters = [
+  { name: "Highest UpVotes", value: "highestUpVotes" },
+  { name: "Lowest UpVotes", value: "lowestUpVotes" },
+  { name: "Most Recent", value: "recent" },
+  { name: "Oldest", value: "old" },
+];

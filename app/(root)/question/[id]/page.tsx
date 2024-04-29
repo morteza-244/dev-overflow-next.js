@@ -1,4 +1,5 @@
 import AnswerForm from "@/components/forms/AnswerForm";
+import AllAnswers from "@/components/shared/answer/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
@@ -75,6 +76,10 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>
+      <AllAnswers
+        questionId={data._id}
+        totalAnswers={data.answers.length}
+      />
       <AnswerForm
         questionId={JSON.stringify(data._id)}
         authorId={JSON.stringify(currentUser._id)}
