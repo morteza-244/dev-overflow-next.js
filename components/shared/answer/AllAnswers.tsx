@@ -1,22 +1,20 @@
+import FilterSelector from "@/components/shared/FilterSelector";
 import { AnswerFilters } from "@/constants/filters";
 import { getAnswers } from "@/lib/actions/answer.action";
-import FilterSelector from "@/components/shared/FilterSelector";
 import AnswerCard from "./AnswerCard";
+import { ObjectId } from "mongoose";
 
 interface AllAnswersProps {
   questionId: string;
   totalAnswers: number;
+  userId: ObjectId;
 }
 
-const AllAnswers = async ({
-  questionId,
-  totalAnswers,
-}: AllAnswersProps) => {
-
+const AllAnswers = async ({ questionId, totalAnswers, userId }: AllAnswersProps) => {
   const data = await getAnswers({
     questionId,
   });
-  
+
   return (
     <>
       <div className="flex-between">
@@ -25,7 +23,7 @@ const AllAnswers = async ({
       </div>
       <div>
         {data.answers.map((answer) => (
-          <AnswerCard key={answer._id} answer={answer} />
+          <AnswerCard key={answer._id} answer={answer} userId={userId} />
         ))}
       </div>
     </>

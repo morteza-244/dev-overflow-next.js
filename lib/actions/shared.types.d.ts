@@ -77,3 +77,11 @@ export interface GetAnswersParams {
   page?: number;
   pageSize?: number;
 }
+
+export interface AnswerVoteParams {
+  answerId: string;
+  userId: string;
+  hasUpVoted: boolean;
+  hasDownVoted: boolean;
+  path: string;
+}

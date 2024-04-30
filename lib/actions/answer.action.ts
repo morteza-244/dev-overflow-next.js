@@ -5,7 +5,11 @@ import Question from "@/database/question.model";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
-import { CreateAnswerParams, GetAnswersParams } from "./shared.types";
+import {
+  AnswerVoteParams,
+  CreateAnswerParams,
+  GetAnswersParams,
+} from "./shared.types";
 
 export async function createAnswer(params: CreateAnswerParams) {
   const { author, content, path, question } = params;
@@ -45,5 +49,69 @@ export async function getAnswers(params: GetAnswersParams) {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export async function upVoteAnswer(params: AnswerVoteParams) {
+  try {
+    connectToDatabase();
+    const { hasDownVoted, hasUpVoted, path, answerId, userId } = params;
+
+    let updateQuery = {};
+
+    if (hasUpVoted) {
+      updateQuery = { $pull: { upVotes: userId } };
+    } else if (hasDownVoted) {
+      updateQuery = {
+        $pull: { downVotes: userId },
+        $push: { upVotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { upVotes: userId } };
+    }
+
+    const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
+      new: true,
+    });
+
+    if (!answer) {
+      throw new Error("Answer not found");
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function downVoteAnswer(params: AnswerVoteParams) {
+  try {
+    connectToDatabase();
+    const { hasDownVoted, hasUpVoted, path, answerId, userId } = params;
+
+    let updateQuery = {};
+
+    if (hasDownVoted) {
+      updateQuery = { $pull: { downVotes: userId } };
+    } else if (hasUpVoted) {
+      updateQuery = {
+        $pull: { upVotes: userId },
+        $push: { downVotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downVotes: userId } };
+    }
+
+    const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
+      new: true,
+    });
+
+    if(!answer){
+      throw new Error("Answer not found")
+    }
+
+    revalidatePath(path)
+  } catch (error) {
+    console.log(error);
   }
 }

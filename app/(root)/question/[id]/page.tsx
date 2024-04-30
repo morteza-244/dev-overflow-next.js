@@ -88,7 +88,11 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>
-      <AllAnswers questionId={data._id} totalAnswers={data.answers.length} />
+      <AllAnswers
+        questionId={data._id}
+        totalAnswers={data.answers.length}
+        userId={currentUser._id}
+      />
       <AnswerForm
         questionId={JSON.stringify(data._id)}
         authorId={JSON.stringify(currentUser._id)}

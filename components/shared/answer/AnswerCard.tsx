@@ -1,13 +1,21 @@
+import ParseHTML from "@/components/shared/ParseHTML";
 import { IAnswer } from "@/database/answer.model";
 import { getTimestamp } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
-import Image from 'next/image'
-import ParseHTML from "@/components/shared/ParseHTML";
-const AnswerCard = ({ answer }: { answer: IAnswer }) => {
+import Votes from "../Votes";
+import { ObjectId } from "mongoose";
+
+interface AnswerCardProps {
+  answer: IAnswer;
+  userId: ObjectId;
+}
+
+const AnswerCard = ({ answer, userId }: AnswerCardProps) => {
   return (
     <article className="py-10 border-b">
       <div className="flex-between">
-        <div className="flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+        <div className="w-full flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
             href={`/profile/${answer.author.clerkId}`}
             className="flex flex-1 items-start sm:items-center gap-1"
@@ -21,12 +29,23 @@ const AnswerCard = ({ answer }: { answer: IAnswer }) => {
             />
             <div className="flex flex-col sm:flex-row sm:items-center">
               <p className="text-sm">{answer.author.name}</p>
-              <p className="line-clamp-1 text-sm">
+              <p className="line-clamp-1 text-xs sm:text-sm">
                 <span className="max-sm:hidden mx-1">-</span>answered{" "}
                 {getTimestamp(answer.createdAt)}
               </p>
             </div>
           </Link>
+          <div>
+            <Votes
+              type="Answer"
+              itemId={JSON.stringify(answer._id)}
+              userId={JSON.stringify(userId)}
+              upVotes={answer.upVotes.length}
+              hasUpVoted={answer.upVotes.includes(userId)}
+              downVotes={answer.downVotes.length}
+              hasDownVoted={answer.downVotes.includes(userId)}
+            />
+          </div>
         </div>
       </div>
       <ParseHTML content={answer.content} />
