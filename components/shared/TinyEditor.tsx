@@ -5,9 +5,13 @@ import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 interface TinyEditorProps<T extends FieldValues = FieldValues> {
   field: ControllerRenderProps<T>;
+  fieldName: keyof T;
 }
 
-const TinyEditor = <T extends FieldValues>({ field }: TinyEditorProps<T>) => {
+const TinyEditor = <T extends FieldValues>({
+  field,
+  fieldName,
+}: TinyEditorProps<T>) => {
   const editorRef = useRef(null);
   const { theme } = useTheme();
 
@@ -19,7 +23,7 @@ const TinyEditor = <T extends FieldValues>({ field }: TinyEditorProps<T>) => {
         editorRef.current = editor;
       }}
       onBlur={field.onBlur}
-      onEditorChange={(content) => field.onChange(content)}
+      onEditorChange={(content) => field.onChange({ [fieldName]: content })}
       init={{
         height: 350,
         menubar: false,

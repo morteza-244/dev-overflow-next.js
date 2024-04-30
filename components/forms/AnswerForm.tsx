@@ -1,5 +1,4 @@
 "use client";
-import TinyEditor from "@/components/shared/TinyEditor";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,9 +12,11 @@ import { answerSchema, TAnswerFormData } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import SubmitLoading from "../shared/SubmitLoading";
+import { Editor } from "@tinymce/tinymce-react";
+import { useTheme } from "next-themes";
 
 interface AnswerFormProps {
   authorId: string;
@@ -24,6 +25,8 @@ interface AnswerFormProps {
 
 const AnswerForm = ({ authorId, questionId }: AnswerFormProps) => {
   const pathname = usePathname();
+  const editorRef = useRef(null);
+  const { theme } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const form = useForm<TAnswerFormData>({
@@ -69,7 +72,45 @@ const AnswerForm = ({ authorId, questionId }: AnswerFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <TinyEditor field={field} />
+                  <Editor
+                    apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR__API_KEY}
+                    onInit={(_evt, editor) => {
+                      // @ts-ignore
+                      editorRef.current = editor;
+                    }}
+                    onBlur={field.onBlur}
+                    onEditorChange={(content) => field.onChange(content)}
+                    init={{
+                      height: 350,
+                      menubar: false,
+                      browser_spellcheck: true,
+                      plugins: [
+                        "advlist",
+                        "autolink",
+                        "lists",
+                        "link",
+                        "image",
+                        "charmap",
+                        "preview",
+                        "anchor",
+                        "searchreplace",
+                        "visualblocks",
+                        "codesample",
+                        "fullscreen",
+                        "insertdatetime",
+                        "media",
+                        "table",
+                      ],
+                      toolbar:
+                        "undo redo " +
+                        "codesample bold italic forecolor alignleft aligncenter" +
+                        "alignright alignjustify bullist numlist",
+                      content_style:
+                        "body { font-family:Inter; font-size:16px }",
+                      skin: theme === "dark" ? "oxide-dark" : "oxide",
+                      content_css: theme === "dark" ? "dark" : "light",
+                    }}
+                  />
                 </FormControl>
                 <FormMessage className="text-red-600" />
               </FormItem>
