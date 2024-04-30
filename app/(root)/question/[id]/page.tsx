@@ -7,7 +7,6 @@ import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
-import { Tag } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,19 +18,23 @@ interface QuestionDetailProps {
 }
 
 const QuestionDetail = async ({ params }: QuestionDetailProps) => {
+  const { userId: clerkId } = auth();
   const data = await getQuestionById({
     questionId: params.id,
   });
-  const { userId: clerkId } = auth();
+  if (!data) return null;
+  
   const currentUser = await getUserById({
     userId: clerkId!,
   });
+  if (!currentUser) return null;
+
   return (
     <div className="space-y-6">
       <div className="flex justify-start items-center w-full flex-col">
         <div className="w-full flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
-            href={`/profile/${data.author.clerkId}`}
+            href={`/profile/${data.author._id}`}
             className="flex items-center justify-start gap-1"
           >
             <Image
@@ -84,7 +87,7 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
       </div>
       <ParseHTML content={data.content} />
       <div className="flex gap-2 flex-wrap">
-        {data.tags.map((tag: Tag) => (
+        {data.tags.map((tag) => (
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>

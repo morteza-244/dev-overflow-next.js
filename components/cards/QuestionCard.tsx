@@ -1,35 +1,16 @@
+import { IQuestion } from "@/database/question.model";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
-import { Tag } from "@/types";
 import Link from "next/link";
 import Metric from "../shared/Metric";
 import RenderTag from "../shared/RenderTag";
 
 interface QuestionCardProps {
-  _id: string;
-  title: string;
-  tags: Tag[];
-  author: {
-    _id: string;
-    name: string;
-    picture: string;
-    clerkId: string;
-  };
-  upVotes: number[];
-  answers: number[];
-  createdAt: Date;
-  views: number;
+  question: IQuestion;
 }
 
-const QuestionCard = ({
-  _id,
-  title,
-  tags,
-  author,
-  upVotes,
-  answers,
-  createdAt,
-  views,
-}: QuestionCardProps) => {
+const QuestionCard = ({ question }: QuestionCardProps) => {
+  const { createdAt, _id, title, tags, author, upVotes, answers, views } =
+    question;
   return (
     <div className="card-wrapper p-5 rounded-lg">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">

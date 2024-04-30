@@ -1,4 +1,3 @@
-"use client";
 import { Editor } from "@tinymce/tinymce-react";
 import { useTheme } from "next-themes";
 import { useRef } from "react";
@@ -43,9 +42,9 @@ const TinyEditor = <T extends FieldValues>({ field }: TinyEditorProps<T>) => {
           "table",
         ],
         toolbar:
-          "undo redo | " +
-          "codesample | bold italic forecolor | alignleft aligncenter |" +
-          "alignright alignjustify | bullist numlist",
+          "undo redo " +
+          "codesample bold italic forecolor alignleft aligncenter" +
+          "alignright alignjustify bullist numlist",
         content_style: "body { font-family:Inter; font-size:16px }",
         skin: theme === "dark" ? "oxide-dark" : "oxide",
         content_css: theme === "dark" ? "dark" : "light",

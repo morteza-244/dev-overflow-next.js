@@ -1,8 +1,6 @@
 import { lineSpinner } from "ldrs";
-import { useTheme } from "next-themes";
 
 const SubmitLoading = ({ label }: { label: string }) => {
-  const {theme} = useTheme()
   lineSpinner.register();
   return (
     <>

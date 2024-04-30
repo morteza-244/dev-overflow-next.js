@@ -38,17 +38,7 @@ const Home = async () => {
           />
         ) : (
           data?.questions.map((question) => (
-            <QuestionCard
-              key={question._id}
-              _id={question._id}
-              title={question.title}
-              tags={question.tags}
-              author={question.author}
-              upVotes={question.upVotes}
-              answers={question.answers}
-              createdAt={question.createdAt}
-              views={question.views}
-            />
+            <QuestionCard key={question._id} question={question} />
           ))
         )}
       </div>

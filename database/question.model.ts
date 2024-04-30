@@ -1,13 +1,15 @@
-import { Document, model, models, Schema } from "mongoose";
+import { Document, Model, model, models, Schema } from "mongoose";
+import { ITag } from "./tag.model";
+import { IUser } from "./user.model";
 
 export interface IQuestion extends Document {
   title: string;
   content: string;
-  tags: Schema.Types.ObjectId[];
+  tags: ITag[];
   views: number;
   upVotes: Schema.Types.ObjectId[];
   downVotes: Schema.Types.ObjectId[];
-  author: Schema.Types.ObjectId;
+  author: IUser;
   answers: Schema.Types.ObjectId[];
   createdAt: Date;
 }
@@ -24,5 +26,6 @@ const QuestionSchema = new Schema<IQuestion>({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Question = models.Question || model("Question", QuestionSchema);
+const Question: Model<IQuestion> =
+  models.Question || model<IQuestion>("Question", QuestionSchema);
 export default Question;

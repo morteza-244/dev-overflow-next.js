@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import RenderTag from "./RenderTag";
+import { ITag } from "@/database/tag.model";
 
 const topQuestions = [
   {
@@ -64,7 +65,7 @@ const RightSidebar = () => {
         <h3 className="h3-bold">Popular Tags</h3>
         <div className="flex flex-col gap-4 mt-7">
           {tags.map((tag) => (
-            <RenderTag key={tag._id} tag={tag} showCount={true} />
+            <RenderTag key={tag._id} tag={tag as ITag} showCount={true} />
           ))}
         </div>
       </div>

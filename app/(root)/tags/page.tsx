@@ -1,7 +1,7 @@
+import TagCard from "@/components/cards/TagCard";
 import FilterSelector from "@/components/shared/FilterSelector";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
-import { Button } from "@/components/ui/button";
 import { tagFilters } from "@/constants/filters";
 import { getTags } from "@/lib/actions/tag.action";
 
@@ -31,19 +31,7 @@ const Tags = async () => {
       ) : (
         <section className="grid xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 gap-4">
           {data.tags.map((tag) => (
-            <div className="shadow-md dark:shadow-none dark:bg-[#0F1117] rounded-lg">
-              <article className="w-full space-y-5 p-4">
-                <Button variant="secondary" size={"sm"}>
-                  {tag.name}
-                </Button>
-                <p>
-                  <span className="text-primary-500 font-semibold">
-                    {tag.questions.length}+{" "}
-                  </span>
-                  Question
-                </p>
-              </article>
-            </div>
+            <TagCard key={tag._id} tag={tag} />
           ))}
         </section>
       )}
