@@ -85,3 +85,9 @@ export interface AnswerVoteParams {
   hasDownVoted: boolean;
   path: string;
 }
+
+export interface SaveQuestionParams {
+  userId: string;
+  questionId: string | Schema.Types.ObjectId;
+  path: string;
+}

@@ -2,6 +2,7 @@
 
 import Question from "@/database/question.model";
 import User from "@/database/user.model";
+import { Schema } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import {
@@ -9,6 +10,7 @@ import {
   DeleteUserParams,
   GetAllUsersParams,
   GetUserByIdParams,
+  SaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
 
@@ -87,5 +89,47 @@ export async function deleteUser(params: DeleteUserParams) {
   } catch (error) {
     console.log(error);
     throw new Error("User not deleted");
+  }
+}
+
+export async function saveQuestion(params: SaveQuestionParams) {
+  try {
+    const { path, questionId, userId } = params;
+    connectToDatabase();
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const isSavedQuestion = user.saved.includes(
+      questionId as Schema.Types.ObjectId
+    );
+
+    if (isSavedQuestion) {
+      //remove question from saved
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          $pull: { saved: questionId },
+        },
+        { new: true }
+      );
+    } else {
+      // add question to saved
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          $addToSet: { saved: questionId },
+        },
+        { new: true }
+      );
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }

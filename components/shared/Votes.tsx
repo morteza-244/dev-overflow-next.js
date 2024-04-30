@@ -4,6 +4,7 @@ import {
   downVoteQuestion,
   upVoteQuestion,
 } from "@/lib/actions/question.action";
+import { saveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -32,6 +33,13 @@ const Votes = ({
 }: VotesProps) => {
   const pathname = usePathname();
 
+  const handleSave = async () => {
+    await saveQuestion({
+      path: pathname,
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+    });
+  };
   const handleVote = async (action: TAction) => {
     if (!userId) return;
     if (action === "UP_VOTE") {
@@ -123,6 +131,7 @@ const Votes = ({
           height={18}
           alt="star"
           className="cursor-pointer"
+          onClick={handleSave}
         />
       )}
     </div>
