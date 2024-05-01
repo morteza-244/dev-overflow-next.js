@@ -8,6 +8,14 @@ export interface GetQuestionsParams {
   filter?: string;
 }
 
+export interface GetSavedQuestionsParams {
+  clerkId: string;
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+}
+
 export interface CreateQuestionParams {
   title: string;
   content: string;

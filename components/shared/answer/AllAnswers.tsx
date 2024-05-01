@@ -1,5 +1,5 @@
 import FilterSelector from "@/components/shared/FilterSelector";
-import { AnswerFilters } from "@/constants/filters";
+import { answerFilters } from "@/constants/filters";
 import { getAnswers } from "@/lib/actions/answer.action";
 import AnswerCard from "./AnswerCard";
 import { ObjectId } from "mongoose";
@@ -20,7 +20,7 @@ const AllAnswers = async ({ questionId, totalAnswers, userId }: AllAnswersProps)
     <>
       <div className="flex-between">
         <h3>{totalAnswers} Answers</h3>
-        <FilterSelector filters={AnswerFilters} />
+        <FilterSelector filters={answerFilters} />
       </div>
       <div>
         {data.answers.map((answer) => (

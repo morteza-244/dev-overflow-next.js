@@ -1,6 +1,7 @@
 "use server";
 
 import Question from "@/database/question.model";
+import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
@@ -8,6 +9,7 @@ import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
+  GetSavedQuestionsParams,
   GetUserByIdParams,
   SaveQuestionParams,
   UpdateUserParams,
@@ -125,6 +127,32 @@ export async function saveQuestion(params: SaveQuestionParams) {
     }
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getSavedQuestions(params: GetSavedQuestionsParams) {
+  try {
+    const { clerkId } = params;
+    connectToDatabase();
+    const user = await User.findOne({ clerkId }).populate({
+      path: "saved",
+      options: {
+        sort: { createdAt: -1 },
+      },
+      populate: [
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
+      ],
+    });
+
+    if (!user) throw new Error("User not found");
+
+    const savedQuestions = user.saved;
+
+    return { savedQuestions };
   } catch (error) {
     console.log(error);
     throw error;
