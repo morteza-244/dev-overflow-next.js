@@ -51,3 +51,8 @@ export type TAnswer = {
   createdAt: Date;
   content: string;
 };
+
+export type TUrlParams = {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+}
