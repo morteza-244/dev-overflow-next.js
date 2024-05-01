@@ -1,5 +1,6 @@
 "use client";
 import { downVoteAnswer, upVoteAnswer } from "@/lib/actions/answer.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 import {
   downVoteQuestion,
   upVoteQuestion,
@@ -7,7 +8,8 @@ import {
 import { saveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type TAction = "DOWN_VOTE" | "UP_VOTE";
 interface VotesProps {
@@ -32,6 +34,15 @@ const Votes = ({
   hasSaved,
 }: VotesProps) => {
   const pathname = usePathname();
+  const router = useRouter();
+
+
+  useEffect(() => {
+    viewQuestion({
+      userId: userId ? JSON.parse(userId) : undefined,
+      questionId: JSON.parse(itemId),
+    });
+  }, [userId, itemId, pathname, router]);
 
   const handleSave = async () => {
     await saveQuestion({

@@ -99,3 +99,8 @@ export interface SaveQuestionParams {
   questionId: string;
   path: string;
 }
+
+export interface ViewQuestionParams {
+  questionId: string;
+  userId?: string;
+}
