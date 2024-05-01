@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedOut, useAuth } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,12 +18,21 @@ import { usePathname } from "next/navigation";
 
 const NavContent = () => {
   const pathname = usePathname();
+  const { userId } = useAuth();
   return (
     <section className="space-y-1">
       {sidebarLinks.map((link) => {
         const isActive =
           (pathname.includes(link.route) && link.route.length > 1) ||
           pathname === link.route;
+
+        if (link.route === "/profile") {
+          if (userId) {
+            link.route = `${link.route}/${userId}`;
+          } else {
+            return null;
+          }
+        }
         return (
           <SheetClose asChild key={link.route}>
             <Link
