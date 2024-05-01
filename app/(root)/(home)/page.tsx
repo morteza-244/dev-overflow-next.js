@@ -5,6 +5,7 @@ import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { homePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
+import { TQuestion } from "@/types";
 import Link from "next/link";
 
 const Home = async () => {
@@ -38,7 +39,7 @@ const Home = async () => {
           />
         ) : (
           data?.questions.map((question) => (
-            <QuestionCard key={question._id} question={question} />
+            <QuestionCard key={question._id} question={question as TQuestion} />
           ))
         )}
       </div>

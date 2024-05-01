@@ -1,11 +1,11 @@
-import { IQuestion } from "@/database/question.model";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
+import { TQuestion } from "@/types";
 import Link from "next/link";
 import Metric from "../shared/Metric";
 import RenderTag from "../shared/RenderTag";
 
 interface QuestionCardProps {
-  question: IQuestion;
+  question: TQuestion;
 }
 
 const QuestionCard = ({ question }: QuestionCardProps) => {

@@ -3,6 +3,7 @@ import { AnswerFilters } from "@/constants/filters";
 import { getAnswers } from "@/lib/actions/answer.action";
 import AnswerCard from "./AnswerCard";
 import { ObjectId } from "mongoose";
+import { TAnswer } from "@/types";
 
 interface AllAnswersProps {
   questionId: string;
@@ -23,7 +24,7 @@ const AllAnswers = async ({ questionId, totalAnswers, userId }: AllAnswersProps)
       </div>
       <div>
         {data.answers.map((answer) => (
-          <AnswerCard key={answer._id} answer={answer} userId={userId} />
+          <AnswerCard key={answer._id} answer={answer as TAnswer} userId={userId} />
         ))}
       </div>
     </>

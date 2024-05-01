@@ -1,14 +1,14 @@
 import ParseHTML from "@/components/shared/ParseHTML";
-import { IAnswer } from "@/database/answer.model";
 import { getTimestamp } from "@/lib/utils";
+import { TAnswer } from "@/types";
+import { Schema } from "mongoose";
 import Image from "next/image";
 import Link from "next/link";
 import Votes from "../Votes";
-import { ObjectId } from "mongoose";
 
 interface AnswerCardProps {
-  answer: IAnswer;
-  userId: ObjectId;
+  answer: TAnswer;
+  userId: Schema.Types.ObjectId;
 }
 
 const AnswerCard = ({ answer, userId }: AnswerCardProps) => {

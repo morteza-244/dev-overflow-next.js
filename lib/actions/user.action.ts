@@ -2,7 +2,6 @@
 
 import Question from "@/database/question.model";
 import User from "@/database/user.model";
-import { Schema } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import {
@@ -103,9 +102,7 @@ export async function saveQuestion(params: SaveQuestionParams) {
       throw new Error("User not found");
     }
 
-    const isSavedQuestion = user.saved.includes(
-      questionId as Schema.Types.ObjectId
-    );
+    const isSavedQuestion = user.saved.includes(questionId);
 
     if (isSavedQuestion) {
       //remove question from saved

@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { ITag } from "@/database/tag.model";
+import { Tag } from "@/types";
 
 interface TagCardProps {
-  tag: ITag;
+  tag: Tag;
 }
 
 const TagCard = ({ tag }: TagCardProps) => {

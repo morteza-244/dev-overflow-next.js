@@ -88,6 +88,6 @@ export interface AnswerVoteParams {
 
 export interface SaveQuestionParams {
   userId: string;
-  questionId: string | Schema.Types.ObjectId;
+  questionId: string;
   path: string;
 }

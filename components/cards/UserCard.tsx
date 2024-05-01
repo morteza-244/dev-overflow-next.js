@@ -4,6 +4,7 @@ import Link from "next/link";
 import RenderTag from "../shared/RenderTag";
 import { Badge } from "../ui/badge";
 import { IUser } from "@/database/user.model";
+import { Tag } from "@/types";
 
 interface UserCardProps {
   user: IUser
@@ -43,7 +44,7 @@ const UserCard = ({ user }: UserCardProps) => {
           ) : (
             <div className="flex items-center gap-2 flex-wrap">
               {interactedTags.map((tag) => (
-                <RenderTag key={tag._id} tag={tag as ITag} />
+                <RenderTag key={tag._id} tag={tag as Tag} />
               ))}
             </div>
           )}

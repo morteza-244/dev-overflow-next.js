@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { ITag } from "@/database/tag.model";
+import { Tag } from "@/types";
 import Link from "next/link";
 
 interface RenderTagProps {
-  tag: ITag;
+  tag: Tag;
   showCount?: boolean;
 }
 

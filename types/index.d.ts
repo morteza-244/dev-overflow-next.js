@@ -1,3 +1,5 @@
+import { Schema } from "mongoose";
+
 export interface SidebarLink {
   imgURL: string;
   route: string;
@@ -7,6 +9,7 @@ export interface SidebarLink {
 export interface Tag {
   _id: string;
   name: string;
+  questions: TQuestion[];
 }
 
 export interface Filters {
@@ -14,17 +17,37 @@ export interface Filters {
   value: string;
 }
 
-export interface Question {
-  _id: number;
+export type TQuestion = {
+  _id: string;
   title: string;
-  tags: { _id: number; name: string; totalQuestions: number }[];
+  tags: Tag[];
   author: {
     _id: string;
     name: string;
-    picture?: string;
+    picture: string;
+    clerkId: string;
   };
-  upVotes: number;
-  views: number;
-  answers: number;
+  upVotes: number[];
+  answers: number[];
   createdAt: Date;
-}
+  views: number;
+};
+
+export type TAnswer = {
+  clerkId?: string | null;
+  _id: string;
+  question: {
+    _id: string;
+    title: string;
+  };
+  author: {
+    _id: string;
+    clerkId: string;
+    name: string;
+    picture: string;
+  };
+  upVotes: Schema.Types.ObjectId[];
+  downVotes: Schema.Types.ObjectId[];
+  createdAt: Date;
+  content: string;
+};
