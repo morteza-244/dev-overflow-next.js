@@ -1,4 +1,5 @@
 import ProfileLink from "@/components/shared/ProfileLink";
+import Stats from "@/components/shared/Stats";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getUserInfo } from "@/lib/actions/user.action";
@@ -81,6 +82,11 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
           </SignedIn>
         </div>
       </div>
+
+      <Stats
+        totalQuestions={data.totalQuestions}
+        totalAnswers={data.totalAnswers}
+      />
 
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
