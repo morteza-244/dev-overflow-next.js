@@ -1,5 +1,6 @@
 "use server";
 
+import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
@@ -156,5 +157,21 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export async function getUserInfo(params: GetUserByIdParams) {
+  try {
+    connectToDatabase();
+    const { userId } = params;
+    const user = await User.findOne({
+      clerkId: userId,
+    });
+    const totalQuestions = await Question.countDocuments({ author: user._id });
+    const totalAnswers = await Answer.countDocuments({ author: user._id });
+    return { user, totalQuestions, totalAnswers };
+  } catch (error) {
+    console.log(error);
+    throw new Error(" User not found: " + params.userId);
   }
 }
