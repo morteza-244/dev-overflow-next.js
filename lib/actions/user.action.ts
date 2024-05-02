@@ -200,3 +200,27 @@ export async function getUserQuestions(params: GetUserStatsParams) {
     throw error;
   }
 }
+
+export async function getUserAnswers(params: GetUserStatsParams) {
+  try {
+    connectToDatabase();
+    const { userId } = params;
+    const totalAnswers = await Answer.countDocuments({ author: userId });
+    const userAnswers = await Answer.find({ author: userId })
+      .sort({ upVotes: -1 })
+      .populate({
+        path: "question",
+        model: Question,
+        select: "_id title",
+      })
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id clerkId name picture",
+      });
+    return { totalAnswers, userAnswers };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
