@@ -111,3 +111,9 @@ export interface GetQuestionsByTagIdParams {
   pageSize?: number;
   searchQuery?: string;
 }
+
+export interface GetUserStatsParams {
+  userId: string;
+  page?: number;
+  pageSize?: number;
+}

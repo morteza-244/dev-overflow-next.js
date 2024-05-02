@@ -56,3 +56,6 @@ export type TUrlParams = {
   params: { id: string };
   searchParams: { [key: string]: string | undefined };
 }
+export type TSearchParamsProps = {
+  searchParams: { [key: string]: string | undefined };
+}

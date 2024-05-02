@@ -12,6 +12,7 @@ import {
   GetAllUsersParams,
   GetSavedQuestionsParams,
   GetUserByIdParams,
+  GetUserStatsParams,
   SaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
@@ -173,5 +174,29 @@ export async function getUserInfo(params: GetUserByIdParams) {
   } catch (error) {
     console.log(error);
     throw new Error(" User not found: " + params.userId);
+  }
+}
+
+export async function getUserQuestions(params: GetUserStatsParams) {
+  try {
+    connectToDatabase();
+    const { userId } = params;
+    const totalQuestions = await Question.countDocuments({ author: userId });
+    const userQuestions = await Question.find({ author: userId })
+      .sort({ views: -1, upVotes: -1 })
+      .populate({
+        path: "tags",
+        model: Tag,
+        select: "_id name",
+      })
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id clerkId name picture",
+      });
+    return { totalQuestions, userQuestions };
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }

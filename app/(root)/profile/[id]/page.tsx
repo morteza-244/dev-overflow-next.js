@@ -1,4 +1,5 @@
 import ProfileLink from "@/components/shared/ProfileLink";
+import QuestionTab from "@/components/shared/QuestionTab";
 import Stats from "@/components/shared/Stats";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -91,14 +92,20 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList>
-            <TabsTrigger value="top-posts" className="tab">
+            <TabsTrigger value="top-posts" className="text-primary-500">
               Top Posts
             </TabsTrigger>
-            <TabsTrigger value="answers" className="tab">
+            <TabsTrigger value="answers" className="text-primary-500">
               Answers
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="top-posts">Top Posts</TabsContent>
+          <TabsContent value="top-posts">
+            <QuestionTab
+              userId={data?.user._id}
+              clerkId={userId}
+              searchParams={searchParams}
+            />
+          </TabsContent>
           <TabsContent value="answers">Answers</TabsContent>
         </Tabs>
       </div>
