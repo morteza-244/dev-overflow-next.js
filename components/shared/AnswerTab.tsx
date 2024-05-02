@@ -13,7 +13,7 @@ const AnswerTab = async ({ userId, clerkId, searchParams }: AnswerTabProps) => {
   return (
     <div className="grid md:grid-cols-2 xl:grid-cols-1 gap-4">
       {data.userAnswers.map((answer) => (
-        <UserAnswerCard answer={answer as TAnswer} />
+        <UserAnswerCard key={answer._id} answer={answer as TAnswer} />
       ))}
     </div>
   );
