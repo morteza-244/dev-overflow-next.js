@@ -10,6 +10,7 @@ export interface Tag {
   _id: string;
   name: string;
   questions: TQuestion[];
+  numberOfQuestions: number;
 }
 
 export interface Filters {
@@ -55,10 +56,10 @@ export type TAnswer = {
 export type TUrlParams = {
   params: { id: string };
   searchParams: { [key: string]: string | undefined };
-}
+};
 export type TSearchParamsProps = {
   searchParams: { [key: string]: string | undefined };
-}
+};
 
-export type TActions = "QUESTION" | "ANSWER"
-export type TQuestionForm = "EDIT" | "CREATE"
+export type TActions = "QUESTION" | "ANSWER";
+export type TQuestionForm = "EDIT" | "CREATE";
