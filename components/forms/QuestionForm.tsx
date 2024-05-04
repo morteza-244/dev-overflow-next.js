@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { questionFormSchema, TQuestionFormData } from "@/lib/validations";
 import { Tag, TQuestionForm } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,11 +21,11 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import { KeyboardEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import SubmitLoading from "../shared/SubmitLoading";
+import SubmitLoading from "@/components/shared/SubmitLoading";
 
 interface QuestionFormProps {
   currentUserId: string;
-  type?: TQuestionForm;
+  type: TQuestionForm;
   questionDetails?: string;
 }
 
@@ -40,7 +40,7 @@ const QuestionForm = ({
   const editorRef = useRef(null);
   const { theme } = useTheme();
   const question = JSON.parse(questionDetails || "");
-  const groupedTags = question.tags.map((tag: Tag) => tag.name)
+  const groupedTags = question.tags.map((tag: Tag) => tag.name);
   const form = useForm<TQuestionFormData>({
     resolver: zodResolver(questionFormSchema),
     defaultValues: {
@@ -53,16 +53,29 @@ const QuestionForm = ({
   const onSubmit = async (data: TQuestionFormData) => {
     try {
       setIsPending(true);
-      await createQuestion({
-        title: data.title,
-        content: data.explanation,
-        tags: data.tags,
-        author: JSON.parse(currentUserId),
-        path: pathname,
-      });
+      if (type === "EDIT") {
+        await editQuestion({
+          title: data.title,
+          content: data.explanation,
+          path: pathname,
+          questionId: question._id,
+        });
+        router.push(`/question/${question._id}`);
+      } else {
+        await createQuestion({
+          title: data.title,
+          content: data.explanation,
+          tags: data.tags,
+          author: JSON.parse(currentUserId),
+          path: pathname,
+        });
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
       setIsPending(false);
-      router.push("/");
-    } catch (error) {}
+    }
   };
 
   const handleInputKeyDown = (
@@ -183,6 +196,7 @@ const QuestionForm = ({
                 <>
                   <Input
                     placeholder="Add tags..."
+                    disabled={type === "EDIT"}
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
                   {field.value.length > 0 && (
@@ -193,11 +207,13 @@ const QuestionForm = ({
                           className="bg-slate-200 text-slate-600 dark:bg-muted dark:text-slate-400 flex-center gap-1 rounded-md border-none py-2 capitalize active:scale-95 transition-all"
                         >
                           {tag}
-                          <X
-                            size={15}
-                            onClick={() => handleTagRemove(tag, field)}
-                            className="cursor-pointer"
-                          />
+                          {type !== "EDIT" && (
+                            <X
+                              size={15}
+                              onClick={() => handleTagRemove(tag, field)}
+                              className="cursor-pointer"
+                            />
+                          )}
                         </Badge>
                       ))}
                     </div>

@@ -1,7 +1,6 @@
 import QuestionForm from "@/components/forms/QuestionForm";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
-import { TQuestion } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 
 interface EditQuestionProps {
@@ -23,7 +22,11 @@ const EditQuestion = async ({ params }: EditQuestionProps) => {
     <>
       <h1 className="text-dark200_light900 h1-bold">Edit Question</h1>
       <div className="mt-5">
-        <QuestionForm type={"EDIT"} currentUserId={currentUser._id} questionDetails={JSON.stringify(data)} />
+        <QuestionForm
+          type={"EDIT"}
+          currentUserId={currentUser._id}
+          questionDetails={JSON.stringify(data)}
+        />
       </div>
     </>
   );
