@@ -5,7 +5,7 @@ import { deleteAnswer } from "@/lib/actions/answer.action";
 import { deleteQuestion } from "@/lib/actions/question.action";
 import { TActions } from "@/types";
 import { Pencil, Trash2 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import SubmitLoading from "./SubmitLoading";
 
@@ -16,6 +16,7 @@ interface ActionsButtonProps {
 
 const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
   const pathname = usePathname();
+  const router = useRouter()
   const [isPending, setIsPending] = useState(false);
   const handleDelete = async () => {
     try {
@@ -36,7 +37,9 @@ const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
       console.log(error);
     }
   };
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    router.push(`/question/edit/${itemId}`)
+  };
   return (
     <div className="flex items-center justify-end gap-3 w-full">
       {type === "QUESTION" && (
