@@ -55,12 +55,11 @@ export async function createUser(userData: CreateUserParams) {
 export async function updatedUser(params: UpdateUserParams) {
   try {
     connectToDatabase();
-    await User.findOneAndUpdate(
-      { clerkId: params.clerkId },
-      params.updateData,
-      { new: true }
-    );
-    revalidatePath(params.path);
+    const { clerkId, path, updateData } = params;
+    await User.findOneAndUpdate({ clerkId: clerkId }, updateData, {
+      new: true,
+    });
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw new Error("User not updated");

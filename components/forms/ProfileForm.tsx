@@ -1,4 +1,5 @@
 "use client";
+import SubmitLoading from "@/components/shared/SubmitLoading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,10 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { updatedUser } from "@/lib/actions/user.action";
 import { profileSchema, TProfileFormData } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Textarea } from "@/components/ui/textarea";
 
 interface ProfileFormProps {
   userId: string | null;
@@ -21,6 +25,9 @@ interface ProfileFormProps {
 
 const ProfileForm = ({ userId, currentUser }: ProfileFormProps) => {
   const user = JSON.parse(currentUser);
+  const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const form = useForm<TProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -32,7 +39,25 @@ const ProfileForm = ({ userId, currentUser }: ProfileFormProps) => {
     },
   });
   const onSubmit = async (data: TProfileFormData) => {
-    console.log(data);
+    try {
+      setIsPending(true);
+      await updatedUser({
+        clerkId: userId!,
+        updateData: {
+          name: data.name,
+          bio: data.bio,
+          location: data.location,
+          username: data.username,
+          portfolioWebsite: data.portfolioWebsite,
+        },
+        path: pathname,
+      });
+      router.back();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
   };
   return (
     <Form {...form}>
@@ -123,7 +148,11 @@ const ProfileForm = ({ userId, currentUser }: ProfileFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div className="text-right">
+          <Button type="submit" size={"sm"} disabled={isPending}>
+            {isPending ? <SubmitLoading label="Saving" /> : "Save"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
