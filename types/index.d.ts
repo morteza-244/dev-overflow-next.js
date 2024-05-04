@@ -61,3 +61,4 @@ export type TSearchParamsProps = {
 }
 
 export type TActions = "QUESTION" | "ANSWER"
+export type TQuestionForm = "EDIT" | "CREATE"

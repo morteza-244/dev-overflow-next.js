@@ -13,34 +13,46 @@ import {
 import { Input } from "@/components/ui/input";
 import { createQuestion } from "@/lib/actions/question.action";
 import { questionFormSchema, TQuestionFormData } from "@/lib/validations";
+import { Tag, TQuestionForm } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 import { X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { KeyboardEvent, useRef } from "react";
+import { KeyboardEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import SubmitLoading from "../shared/SubmitLoading";
 
 interface QuestionFormProps {
   currentUserId: string;
+  type?: TQuestionForm;
+  questionDetails?: string;
 }
 
-const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
+const QuestionForm = ({
+  currentUserId,
+  type,
+  questionDetails,
+}: QuestionFormProps) => {
   const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
   const pathname = usePathname();
   const editorRef = useRef(null);
   const { theme } = useTheme();
+  const question = JSON.parse(questionDetails || "");
+  const groupedTags = question.tags.map((tag: Tag) => tag.name)
   const form = useForm<TQuestionFormData>({
     resolver: zodResolver(questionFormSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: question.title || "",
+      explanation: question.content || "",
+      tags: groupedTags || [],
     },
   });
 
   const onSubmit = async (data: TQuestionFormData) => {
     try {
+      setIsPending(true);
       await createQuestion({
         title: data.title,
         content: data.explanation,
@@ -48,6 +60,7 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
         author: JSON.parse(currentUserId),
         path: pathname,
       });
+      setIsPending(false);
       router.push("/");
     } catch (error) {}
   };
@@ -120,6 +133,7 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
+                  initialValue={question.content || ""}
                   init={{
                     height: 350,
                     menubar: false,
@@ -198,7 +212,19 @@ const QuestionForm = ({ currentUserId }: QuestionFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? (
+            type === "EDIT" ? (
+              <SubmitLoading label="Editing..." />
+            ) : (
+              <SubmitLoading label="Posting..." />
+            )
+          ) : type === "EDIT" ? (
+            "Edit Question"
+          ) : (
+            "Ask a Question"
+          )}
+        </Button>
       </form>
     </Form>
   );
