@@ -1,8 +1,8 @@
+import { getTopQuestions } from "@/lib/actions/question.action";
+import { Tag } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import RenderTag from "./RenderTag";
-import { ITag } from "@/database/tag.model";
-import { Tag } from "@/types";
 
 const topQuestions = [
   {
@@ -29,14 +29,15 @@ const topQuestions = [
 ];
 
 const tags = [
-  { _id: "1", name: "javaScript"},
-  { _id: "2", name: "react.js"},
-  { _id: "3", name: "next.js"},
-  { _id: "4", name: "typeScript"},
-  { _id: "5", name: "vue.js"},
+  { _id: "1", name: "javaScript" },
+  { _id: "2", name: "react.js" },
+  { _id: "3", name: "next.js" },
+  { _id: "4", name: "typeScript" },
+  { _id: "5", name: "vue.js" },
 ];
 
-const RightSidebar = () => {
+const RightSidebar = async () => {
+  const topQuestions = await getTopQuestions();
   return (
     <section className="background-light900_dark200 sticky left-0 top-0 flex flex-col h-screen overflow-y-auto dark:border-gray-700 dark:border-r p-5 pt-32 shadow-md dark:shadow-none max-xl:hidden w-[350px] custom-scrollbar gap-7">
       <div>
