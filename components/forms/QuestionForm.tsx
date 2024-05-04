@@ -1,4 +1,5 @@
 "use client";
+import SubmitLoading from "@/components/shared/SubmitLoading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import { KeyboardEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import SubmitLoading from "@/components/shared/SubmitLoading";
 
 interface QuestionFormProps {
   currentUserId: string;
@@ -39,13 +39,14 @@ const QuestionForm = ({
   const pathname = usePathname();
   const editorRef = useRef(null);
   const { theme } = useTheme();
-  const question = JSON.parse(questionDetails || "");
-  const groupedTags = question.tags.map((tag: Tag) => tag.name);
+  const question = questionDetails && JSON.parse(questionDetails || "");
+
+  const groupedTags = question?.tags.map((tag: Tag) => tag.name);
   const form = useForm<TQuestionFormData>({
     resolver: zodResolver(questionFormSchema),
     defaultValues: {
-      title: question.title || "",
-      explanation: question.content || "",
+      title: question?.title || "",
+      explanation: question?.content || "",
       tags: groupedTags || [],
     },
   });
@@ -146,7 +147,7 @@ const QuestionForm = ({
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue={question.content || ""}
+                  initialValue={question?.content || ""}
                   init={{
                     height: 350,
                     menubar: false,
