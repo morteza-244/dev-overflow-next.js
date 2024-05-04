@@ -59,3 +59,5 @@ export type TUrlParams = {
 export type TSearchParamsProps = {
   searchParams: { [key: string]: string | undefined };
 }
+
+export type TActions = "QUESTION" | "ANSWER"

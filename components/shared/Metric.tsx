@@ -29,7 +29,7 @@ const Metric = ({
           alt={alt}
           width={20}
           height={20}
-          className={`object-cover ${href ? "rounded-full" : " "}`}
+          className={`object-cover w-5 h-5 ${href ? "rounded-full" : " "}`}
         />
         <div className={`${textStyles} flex items-center gap-1 text-sm`}>
           <span>{formatAndDivideNumber(value as number)}</span>

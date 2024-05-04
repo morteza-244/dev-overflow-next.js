@@ -18,7 +18,7 @@ const QuestionTab = async ({
   return (
     <div className="space-y-3">
       {data.userQuestions.map((question) => (
-        <QuestionCard key={question._id} question={question as TQuestion} />
+        <QuestionCard key={question._id} question={question as TQuestion} clerkId={clerkId} />
       ))}
     </div>
   );
