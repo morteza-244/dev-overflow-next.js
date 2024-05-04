@@ -31,8 +31,9 @@ const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
           path: pathname,
         });
       }
+      setIsPending(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   const handleEdit = () => {};
@@ -57,7 +58,7 @@ const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
         disabled={isPending}
       >
         {isPending ? (
-          <SubmitLoading label="Wait" />
+          <SubmitLoading label="Wait" color="#334155" />
         ) : (
           <>
             <Trash2 size={17} className="text-red-600 mr-2" />

@@ -1,6 +1,6 @@
 import { lineSpinner } from "ldrs";
 
-const SubmitLoading = ({ label }: { label: string }) => {
+const SubmitLoading = ({ label, color  }: { label: string, color?: string }) => {
   lineSpinner.register();
   return (
     <>
@@ -9,7 +9,7 @@ const SubmitLoading = ({ label }: { label: string }) => {
         size="22"
         stroke="2"
         speed="1"
-        color="white"
+        color={color ? color : "white"}
       ></l-line-spinner>
     </>
   );

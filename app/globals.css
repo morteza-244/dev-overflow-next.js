@@ -156,7 +156,7 @@
     @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
   }
   .card-wrapper {
-    @apply bg-white shadow-md dark:bg-muted dark:shadow-none;
+    @apply bg-white shadow-md dark:bg-dark-300 dark:shadow-none;
   }
   .custom-scrollbar::-webkit-scrollbar {
     width: 3px;
