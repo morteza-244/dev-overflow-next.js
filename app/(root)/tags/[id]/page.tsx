@@ -7,14 +7,14 @@ import { TQuestion, TUrlParams } from "@/types";
 const TagsDetail = async ({ params, searchParams }: TUrlParams) => {
   const data = await getQuestionsByTagId({
     tagId: params.id,
-    searchQuery: searchParams.query,
+    searchQuery: searchParams.q,
   });
   return (
     <div className="space-y-6">
       <h1 className="h1-bold">{data.tagTitle}</h1>
       <div>
         <LocalSearchBar
-          route="/"
+          route={`/tags/${params.id}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search tag questions"

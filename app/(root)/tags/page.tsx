@@ -4,9 +4,12 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { tagFilters } from "@/constants/filters";
 import { getTags } from "@/lib/actions/tag.action";
+import { TSearchParamsProps } from "@/types";
 
-const Tags = async () => {
-  const data = await getTags({});
+const Tags = async ({searchParams}: TSearchParamsProps) => {
+  const data = await getTags({
+    searchQuery: searchParams.q
+  });
   return (
     <div className="space-y-6">
       <h1 className="h1-bold">All Tags</h1>
