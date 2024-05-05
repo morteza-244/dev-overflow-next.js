@@ -4,14 +4,15 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { questionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
-import { TQuestion } from "@/types";
+import { TQuestion, TSearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 
-const Collection = async () => {
+const Collection = async ({searchParams}: TSearchParamsProps) => {
   const { userId } = auth();
   if (!userId) return null;
   const data = await getSavedQuestions({
     clerkId: userId,
+    searchQuery: searchParams.q
   });
   return (
     <div className="space-y-6">

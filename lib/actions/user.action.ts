@@ -21,13 +21,13 @@ import {
 export async function getUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-    const {searchQuery} = params;
-    const query: FilterQuery<typeof User> = {}
-    if(searchQuery){
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof User> = {};
+    if (searchQuery) {
       query.$or = [
-        {name: {$regex: new RegExp(searchQuery, "i")}},
-        {username: {$regex: new RegExp(searchQuery, "i")}},
-      ]
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
     }
     const users = await User.find(query);
     return { users };
@@ -145,10 +145,18 @@ export async function saveQuestion(params: SaveQuestionParams) {
 
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
-    const { clerkId } = params;
     connectToDatabase();
+    const { clerkId, searchQuery } = params;
+    const query: FilterQuery<typeof Question> = {};
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
+      match: query,
       options: {
         sort: { createdAt: -1 },
       },
