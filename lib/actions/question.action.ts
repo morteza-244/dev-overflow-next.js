@@ -192,6 +192,7 @@ export async function getTopQuestions() {
   try {
     connectToDatabase();
     const topQuestions = await Question.find({})
+      .populate({ path: "author", model: User, select: "name picture username" })
       .sort({ views: -1, upVotes: -1 })
       .limit(5);
     return topQuestions;

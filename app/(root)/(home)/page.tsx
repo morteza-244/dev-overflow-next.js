@@ -2,6 +2,7 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import FilterSelector from "@/components/shared/FilterSelector";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
+import TopQuestionsCarousel from "@/components/shared/TopQuestionsCarousel";
 import { Button } from "@/components/ui/button";
 import { homePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
@@ -12,6 +13,7 @@ const Home = async () => {
   const data = await getQuestions({});
   return (
     <div className="space-y-6">
+      <TopQuestionsCarousel />
       <div className="flex justify-between sm:items-center sm:flex-row flex-col-reverse gap-4">
         <h1 className="h1-bold">All Questions</h1>
         <Link href="/ask-question" className="ms-auto sm:m-0">
