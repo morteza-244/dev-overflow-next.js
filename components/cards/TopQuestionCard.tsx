@@ -19,7 +19,7 @@ const TopQuestionCard = ({ question }: TopQuestionCardProps) => {
       >
         {question.title}
       </Link>
-      <div className="flex items-center gap-1 text-[13px]">
+      <div className="flex items-center flex-wrap gap-1 text-[13px]">
         <Image
           src={question.author.picture}
           alt={"user profile"}
@@ -28,7 +28,7 @@ const TopQuestionCard = ({ question }: TopQuestionCardProps) => {
           className={"object-cover w-5 h-5 rounded-full"}
         />
         <p>{question.author.name}</p>
-        <p>
+        <p className="hidden sm:block">
           • asked
           {getTimestamp(question.createdAt)}
         </p>

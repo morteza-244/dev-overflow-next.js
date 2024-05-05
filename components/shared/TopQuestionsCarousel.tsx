@@ -17,9 +17,9 @@ const TopQuestionsCarousel = async () => {
         dragFree: true,
       }}
       orientation="vertical"
-      className="sm:w-1/2"
+      className="col-span-1"
     >
-      <h1 className="mb-3">Top Questions</h1>
+      <h1 className="mb-3 font-bold text-[18px]">Top Questions</h1>
       <CarouselContent className="h-[200px] gap-5 py-5">
         {topQuestions.map((question) => (
           <TopQuestionCard
