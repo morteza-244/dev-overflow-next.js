@@ -5,6 +5,7 @@ import Interaction from "@/database/interaction.model";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import {
@@ -19,7 +20,15 @@ import {
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
-    const questions = await Question.find({})
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof Question> = {};
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+    const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
@@ -192,7 +201,11 @@ export async function getTopQuestions() {
   try {
     connectToDatabase();
     const topQuestions = await Question.find({})
-      .populate({ path: "author", model: User, select: "name picture username" })
+      .populate({
+        path: "author",
+        model: User,
+        select: "name picture username",
+      })
       .sort({ views: -1, upVotes: -1 })
       .limit(5);
     return topQuestions;

@@ -7,11 +7,13 @@ import TopQuestionsCarousel from "@/components/shared/TopQuestionsCarousel";
 import { Button } from "@/components/ui/button";
 import { homePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
-import { TQuestion } from "@/types";
+import { TQuestion, TSearchParamsProps } from "@/types";
 import Link from "next/link";
 
-const Home = async () => {
-  const data = await getQuestions({});
+const Home = async ({ searchParams }: TSearchParamsProps) => {
+  const data = await getQuestions({
+    searchQuery: searchParams.q,
+  });
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:hidden">
