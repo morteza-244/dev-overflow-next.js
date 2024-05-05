@@ -29,7 +29,7 @@ const UserCard = ({ user }: UserCardProps) => {
           />
           <div className="xs:text-center">
             <h3 className="text-[18px] font-bold leading-5 line-clamp-1 text-dark200_light900">
-              <Link href={`/profile/${user._id}`}>{user.name}</Link>
+              <Link href={`/profile/${user.clerkId}`}>{user.name}</Link>
             </h3>
             <p className="mt-1 body-regular text-dark500_light500">
               @{user.username}

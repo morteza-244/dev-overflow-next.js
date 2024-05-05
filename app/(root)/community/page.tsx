@@ -3,9 +3,12 @@ import FilterSelector from "@/components/shared/FilterSelector";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { userFilters } from "@/constants/filters";
 import { getUsers } from "@/lib/actions/user.action";
+import { TSearchParamsProps } from "@/types";
 
-const Community = async () => {
-  const data = await getUsers({});
+const Community = async ({ searchParams }: TSearchParamsProps) => {
+  const data = await getUsers({
+    searchQuery: searchParams.q,
+  });
   return (
     <>
       <div className="space-y-6">

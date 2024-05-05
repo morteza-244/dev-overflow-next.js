@@ -4,6 +4,7 @@ import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import {
@@ -20,7 +21,15 @@ import {
 export async function getUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-    const users = await User.find({});
+    const {searchQuery} = params;
+    const query: FilterQuery<typeof User> = {}
+    if(searchQuery){
+      query.$or = [
+        {name: {$regex: new RegExp(searchQuery, "i")}},
+        {username: {$regex: new RegExp(searchQuery, "i")}},
+      ]
+    }
+    const users = await User.find(query);
     return { users };
   } catch (error) {
     console.log(error);
