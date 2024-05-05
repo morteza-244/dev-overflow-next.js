@@ -9,7 +9,7 @@ interface TopQuestionCardProps {
 
 const TopQuestionCard = ({ question }: TopQuestionCardProps) => {
   return (
-    <CarouselItem className="basis-1/2 bg-slate-100 dark:bg-dark-200 shadow-md dark:shadow-none rounded-md space-y-2 py-2 px-4">
+    <CarouselItem className="basis-1/2 bg-slate-100 dark:bg-dark-200 shadow-md dark:shadow-none rounded-md space-y-2 py-2 px-3">
       <span className="text-[14px] text-dark500_light700 line-clamp-1 flex sm:hidden">
         {getTimestamp(question.createdAt)}
       </span>
@@ -29,7 +29,7 @@ const TopQuestionCard = ({ question }: TopQuestionCardProps) => {
         />
         <p>{question.author.name}</p>
         <p className="hidden sm:block">
-          • asked
+          • asked{" "}
           {getTimestamp(question.createdAt)}
         </p>
       </div>

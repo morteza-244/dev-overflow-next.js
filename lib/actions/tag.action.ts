@@ -59,7 +59,7 @@ export async function getPopularTags() {
     const popularTags = await Tag.aggregate([
       { $project: { name: 1, numberOfQuestions: { $size: "$questions" } } },
       { $sort: { numberOfQuestions: -1 } },
-      { $limit: 5 },
+      { $limit: 6 },
     ]);
     return popularTags;
   } catch (error) {

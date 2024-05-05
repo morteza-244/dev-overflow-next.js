@@ -21,13 +21,13 @@ const PopularTagsCarousel = async () => {
       className="col-span-1"
     >
       <h1 className="mb-3 font-bold text-[18px]">Popular Tags</h1>
-      <CarouselContent className="h-[200px] gap-5 py-5">
+      <CarouselContent className="h-[200px] gap-5 py-5 grid grid-cols-2">
         {popularTags.map((tag) => (
-          <CarouselItem className="basis-1/2 bg-slate-100 dark:bg-dark-200 shadow-md dark:shadow-none rounded-md space-y-2 py-2 px-4">
+          <CarouselItem className="bg-slate-100 h-20 dark:bg-dark-200 shadow-md dark:shadow-none rounded-md space-y-2 py-2 px-3">
             <Link href={`/tags/${tag._id}`}>
               <h2 className="font-bold text-[17px]">{tag.name}</h2>
             </Link>
-            <p className="text-sm">Number of Questions: {tag.numberOfQuestions}</p>
+            <p className="text-sm">Questions: {tag.numberOfQuestions}</p>
           </CarouselItem>
         ))}
       </CarouselContent>

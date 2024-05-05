@@ -16,7 +16,7 @@ interface ActionsButtonProps {
 
 const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
   const pathname = usePathname();
-  const router = useRouter()
+  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const handleDelete = async () => {
     try {
@@ -38,17 +38,12 @@ const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
     }
   };
   const handleEdit = () => {
-    router.push(`/question/edit/${itemId}`)
+    router.push(`/question/edit/${itemId}`);
   };
   return (
-    <div className="flex items-center justify-end gap-3 w-full">
+    <div className="flex items-center gap-3 w-full">
       {type === "QUESTION" && (
-        <Button
-          size={"sm"}
-          variant={"secondary"}
-          onClick={handleEdit}
-          className="w-full xs:w-auto"
-        >
+        <Button size={"sm"} variant={"secondary"} onClick={handleEdit}>
           <Pencil size={17} className="text-gray-500 mr-2" />
           Edit
         </Button>
@@ -57,7 +52,6 @@ const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
         size={"sm"}
         variant={"secondary"}
         onClick={handleDelete}
-        className="w-full xs:w-auto"
         disabled={isPending}
       >
         {isPending ? (

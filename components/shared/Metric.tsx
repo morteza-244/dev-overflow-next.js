@@ -33,7 +33,7 @@ const Metric = ({
         />
         <div className={`${textStyles} flex items-center gap-1 text-sm`}>
           <span>{formatAndDivideNumber(value as number)}</span>
-          <span className={`line-clamp-1 ${isAuthor ? "max-sm:hidden" : ""}`}>
+          <span className={`line-clamp-1 ${isAuthor ? "max-lg:hidden" : ""}`}>
             {title}
           </span>
         </div>

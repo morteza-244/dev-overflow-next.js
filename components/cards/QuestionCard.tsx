@@ -20,7 +20,7 @@ const QuestionCard = ({ question, clerkId }: QuestionCardProps) => {
     <div className="card-wrapper p-5 rounded-lg space-y-3">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
-          <span className="text-[14px] text-dark400_light700 line-clamp-1 flex sm:hidden">
+          <span className="text-[14px] text-dark400_light700 line-clamp-1 flex lg:hidden">
             {getTimestamp(createdAt)}
           </span>
           <Link href={`/question/${_id}`}>
@@ -35,6 +35,9 @@ const QuestionCard = ({ question, clerkId }: QuestionCardProps) => {
           <RenderTag key={tag._id} tag={tag} />
         ))}
       </div>
+      <SignedIn>
+        {showActionsButton && <ActionsButton type="QUESTION" itemId={_id} />}
+      </SignedIn>
       <div className="flex-between w-full flex-wrap gap-2.5">
         <Metric
           imgUrl={author.picture}
@@ -44,28 +47,27 @@ const QuestionCard = ({ question, clerkId }: QuestionCardProps) => {
           isAuthor
           title={` - asked ${getTimestamp(createdAt)}`}
         />
-        <Metric
-          imgUrl="/assets/icons/like.svg"
-          alt="upVotes"
-          value={formatAndDivideNumber(upVotes.length)}
-          title={"Votes"}
-        />
-        <Metric
-          imgUrl="/assets/icons/message.svg"
-          alt="message"
-          value={formatAndDivideNumber(answers.length)}
-          title={"Answers"}
-        />
-        <Metric
-          imgUrl="/assets/icons/eye.svg"
-          alt="eye"
-          value={formatAndDivideNumber(views)}
-          title={"Views"}
-        />
+        <div className="flex flex-wrap gap-4 items-center">
+          <Metric
+            imgUrl="/assets/icons/like.svg"
+            alt="upVotes"
+            value={formatAndDivideNumber(upVotes.length)}
+            title={"Votes"}
+          />
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            alt="message"
+            value={formatAndDivideNumber(answers.length)}
+            title={"Answers"}
+          />
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            alt="eye"
+            value={formatAndDivideNumber(views)}
+            title={"Views"}
+          />
+        </div>
       </div>
-      <SignedIn>
-        {showActionsButton && <ActionsButton type="QUESTION" itemId={_id} />}
-      </SignedIn>
     </div>
   );
 };
