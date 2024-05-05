@@ -60,6 +60,15 @@ export type TUrlParams = {
 export type TSearchParamsProps = {
   searchParams: { [key: string]: string | undefined };
 };
+export type TUrlQueryParams = {
+  key: string;
+  value: string | null;
+  params: string;
+};
+export type TRemoveUrlQueryParams = {
+  keys: string[];
+  params: string;
+};
 
 export type TActions = "QUESTION" | "ANSWER";
 export type TQuestionForm = "EDIT" | "CREATE";
