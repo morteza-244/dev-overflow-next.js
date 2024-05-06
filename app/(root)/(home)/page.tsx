@@ -13,6 +13,7 @@ import Link from "next/link";
 const Home = async ({ searchParams }: TSearchParamsProps) => {
   const data = await getQuestions({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <div className="space-y-6">

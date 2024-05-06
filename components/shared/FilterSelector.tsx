@@ -6,7 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { formUrlQuery } from "@/lib/utils";
 import { Filters } from "@/types";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface FilterSelectorProps {
   filters: Filters[];
@@ -14,8 +16,24 @@ interface FilterSelectorProps {
 }
 
 const FilterSelector = ({ filters }: FilterSelectorProps) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const filterValue = searchParams.get("filter");
+  const handleFilters = (value: string) => {
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "filter",
+      value,
+    });
+    router.push(newUrl, {
+      scroll: false,
+    });
+  };
   return (
-    <Select>
+    <Select
+      onValueChange={handleFilters}
+      defaultValue={filterValue || undefined}
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a filter" />
       </SelectTrigger>
