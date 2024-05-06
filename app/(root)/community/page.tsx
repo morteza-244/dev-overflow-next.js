@@ -8,6 +8,7 @@ import { TSearchParamsProps } from "@/types";
 const Community = async ({ searchParams }: TSearchParamsProps) => {
   const data = await getUsers({
     searchQuery: searchParams.q,
+    filter: searchParams.filter
   });
   return (
     <>

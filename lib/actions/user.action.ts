@@ -21,7 +21,7 @@ import {
 export async function getUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
       query.$or = [
@@ -29,11 +29,25 @@ export async function getUsers(params: GetAllUsersParams) {
         { username: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
-    const users = await User.find(query);
+    let sortedOptions = {};
+    switch (filter) {
+      case "new_users":
+        sortedOptions = { joinedAt: -1 };
+        break;
+      case "old_users":
+        sortedOptions = { joinedAt: 1 };
+        break;
+      case "top_contributors":
+        query.answers = { reputation: -1 };
+        break;
+      default:
+        break;
+    }
+    const users = await User.find(query).sort(sortedOptions);
     return { users };
   } catch (error) {
     console.log(error);
-    throw new Error("There is no users");
+   throw error
   }
 }
 
