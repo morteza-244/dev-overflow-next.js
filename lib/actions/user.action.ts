@@ -47,7 +47,7 @@ export async function getUsers(params: GetAllUsersParams) {
     return { users };
   } catch (error) {
     console.log(error);
-   throw error
+    throw error;
   }
 }
 
@@ -160,8 +160,28 @@ export async function saveQuestion(params: SaveQuestionParams) {
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
-    const { clerkId, searchQuery } = params;
+    const { clerkId, searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = {};
+    let sortedOptions = {};
+    switch (filter) {
+      case "most_recent":
+        sortedOptions = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortedOptions = { createdAt: 1 };
+        break;
+      case "most_voted":
+        sortedOptions = { upVotes: -1 };
+        break;
+      case "most_viewed":
+        sortedOptions = { views: -1 };
+        break;
+      case "most_answered":
+        sortedOptions = { answers: -1 };
+        break;
+      default:
+        break;
+    }
     if (searchQuery) {
       query.$or = [
         { title: { $regex: new RegExp(searchQuery, "i") } },
@@ -172,7 +192,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       path: "saved",
       match: query,
       options: {
-        sort: { createdAt: -1 },
+        sort: sortedOptions,
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },

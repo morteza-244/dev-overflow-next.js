@@ -7,12 +7,13 @@ import { getSavedQuestions } from "@/lib/actions/user.action";
 import { TQuestion, TSearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 
-const Collection = async ({searchParams}: TSearchParamsProps) => {
+const Collection = async ({ searchParams }: TSearchParamsProps) => {
   const { userId } = auth();
   if (!userId) return null;
   const data = await getSavedQuestions({
     clerkId: userId,
-    searchQuery: searchParams.q
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <div className="space-y-6">
