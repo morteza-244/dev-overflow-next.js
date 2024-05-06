@@ -7,18 +7,14 @@ import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
-import { Tag } from "@/types";
+import { Tag, TUrlParams } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
-interface QuestionDetailProps {
-  params: {
-    id: string;
-  };
-}
 
-const QuestionDetail = async ({ params }: QuestionDetailProps) => {
+
+const QuestionDetail = async ({ params, searchParams }: TUrlParams) => {
   const { userId: clerkId } = auth();
   const data = await getQuestionById({
     questionId: params.id,
@@ -96,6 +92,8 @@ const QuestionDetail = async ({ params }: QuestionDetailProps) => {
         questionId={data._id}
         totalAnswers={data.answers.length}
         userId={currentUser._id}
+        filter={searchParams.filter}
+        page={Number(searchParams.page)}
       />
       <AnswerForm
         questionId={JSON.stringify(data._id)}

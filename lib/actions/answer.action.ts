@@ -35,9 +35,27 @@ export async function createAnswer(params: CreateAnswerParams) {
 }
 
 export async function getAnswers(params: GetAnswersParams) {
-  const { questionId } = params;
+  const { questionId, sortBy } = params;
   try {
     connectToDatabase();
+
+    let sortedOptions = {};
+    switch (sortBy) {
+      case "highestUpVotes":
+        sortedOptions = { upVotes: -1 };
+        break;
+      case "lowestUpVotes":
+        sortedOptions = { upVotes: 1 };
+        break;
+      case "recent":
+        sortedOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortedOptions = { createdAt: 1 };
+        break;
+      default:
+        break;
+    }
     const answers = await Answer.find({
       question: questionId,
     })
@@ -46,7 +64,7 @@ export async function getAnswers(params: GetAnswersParams) {
         model: User,
         select: "_id clerkId name picture",
       })
-      .sort({ createdAt: -1 });
+      .sort(sortedOptions);
     return { answers };
   } catch (error) {
     console.log(error);
@@ -122,7 +140,7 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
   try {
     connectToDatabase();
     const { answerId, path } = params;
-    
+
     const answer = await Answer.findById(answerId);
     if (!answer) throw new Error("Answer not found");
 

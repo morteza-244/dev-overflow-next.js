@@ -13,8 +13,8 @@ interface AnswerCardProps {
 
 const AnswerCard = ({ answer, userId }: AnswerCardProps) => {
   return (
-    <article className="py-10 border-b">
-      <div className="flex-between">
+    <article className="border-b card-wrapper rounded-md p-4">
+      <div className="flex-between mb-4">
         <div className="w-full flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
             href={`/profile/${answer.author.clerkId}`}
