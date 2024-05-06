@@ -3,7 +3,6 @@ export const homePageFilters = [
   { name: "Recommended", value: "recommended" },
   { name: "Frequent", value: "frequent" },
   { name: "Unanswered", value: "unanswered" },
-  { name: "Answered", value: "answered" },
 ];
 
 export const userFilters = [

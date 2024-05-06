@@ -39,9 +39,6 @@ export async function getQuestions(params: GetQuestionsParams) {
       case "unanswered":
         query.answers = { $size: 0 };
         break;
-      case "answered":
-        query.answers = { $size: 1 };
-        break;
       default:
         break;
     }
