@@ -10,12 +10,30 @@ import { GetAllTagsParams, GetQuestionsByTagIdParams } from "./shared.types";
 export async function getTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
+
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
-    const tags = await Tag.find(query);
+    let sortedOptions = {};
+    switch (filter) {
+      case "popular":
+        sortedOptions = { questions: -1 };
+        break;
+      case "recent":
+        sortedOptions = { createdAt: -1 };
+        break;
+      case "name":
+        sortedOptions = { name: 1 };
+        break;
+      case "old":
+        sortedOptions = { createdAt: 1 };
+        break;
+      default:
+        break;
+    }
+    const tags = await Tag.find(query).sort(sortedOptions);
     return { tags };
   } catch (error) {
     console.log(error);

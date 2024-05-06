@@ -6,9 +6,10 @@ import { tagFilters } from "@/constants/filters";
 import { getTags } from "@/lib/actions/tag.action";
 import { TSearchParamsProps } from "@/types";
 
-const Tags = async ({searchParams}: TSearchParamsProps) => {
+const Tags = async ({ searchParams }: TSearchParamsProps) => {
   const data = await getTags({
-    searchQuery: searchParams.q
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <div className="space-y-6">
