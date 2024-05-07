@@ -21,7 +21,7 @@ const AllAnswers = async ({
   filter,
   page,
 }: AllAnswersProps) => {
-  const {answers, hasMore, totalPages} = await getAnswers({
+  const { answers, hasMore, totalPages } = await getAnswers({
     questionId,
     sortBy: filter,
     page: page ? +page : 1,
@@ -41,7 +41,11 @@ const AllAnswers = async ({
             userId={userId}
           />
         ))}
-        <PaginationButton hasMore={hasMore!} totalPages={totalPages!} pageNumber={page ? +page : 1}/>
+        <PaginationButton
+          hasMore={hasMore!}
+          totalPages={totalPages!}
+          pageNumber={page ? +page : 1}
+        />
       </div>
     </>
   );

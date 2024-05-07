@@ -15,6 +15,7 @@ const PaginationButton = ({
 }: PaginationProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  if (totalPages! <= 1) return null;
   const handleNavigation = (type: "PREV" | "NEXT") => {
     const nextPageNumber = type === "PREV" ? pageNumber - 1 : pageNumber + 1;
     const newUrl = formUrlQuery({
