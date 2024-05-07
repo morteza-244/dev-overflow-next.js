@@ -9,7 +9,7 @@ const Layout = ({ children }: PropsWithChildren) => {
       <NavBar />
       <div className="flex">
         <LeftSidebar />
-        <section className="min-h-screen flex flex-col flex-1 px-5 pb-6 pt-36 max-md:pb-14 overflow-x-auto">
+        <section className="min-h-screen flex flex-col flex-1 px-5 pb-5 pt-36 overflow-x-auto">
           <div className="w-full mx-auto max-w-5xl">{children}</div>
         </section>
         <RightSidebar />

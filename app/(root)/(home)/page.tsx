@@ -1,6 +1,7 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import FilterSelector from "@/components/shared/FilterSelector";
 import NoResult from "@/components/shared/NoResult";
+import PaginationButton from "@/components/shared/PaginationButton";
 import PopularTagsCarousel from "@/components/shared/PopularTagsCarousel";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import TopQuestionsCarousel from "@/components/shared/TopQuestionsCarousel";
@@ -11,9 +12,10 @@ import { TQuestion, TSearchParamsProps } from "@/types";
 import Link from "next/link";
 
 const Home = async ({ searchParams }: TSearchParamsProps) => {
-  const data = await getQuestions({
+  const { questions, hasMore, totalPages } = await getQuestions({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
   return (
     <div className="space-y-6">
@@ -39,7 +41,7 @@ const Home = async ({ searchParams }: TSearchParamsProps) => {
         <FilterSelector filters={homePageFilters} />
       </div>
       <div className="flex flex-col gap-6 w-full">
-        {!data?.questions.length ? (
+        {!questions.length ? (
           <NoResult
             title="question"
             description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
@@ -47,11 +49,16 @@ const Home = async ({ searchParams }: TSearchParamsProps) => {
             linkTitle="Ask a Question"
           />
         ) : (
-          data?.questions.map((question) => (
+          questions.map((question) => (
             <QuestionCard key={question._id} question={question as TQuestion} />
           ))
         )}
       </div>
+      <PaginationButton
+        hasMore={hasMore!}
+        totalPages={totalPages!}
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+      />
     </div>
   );
 };
