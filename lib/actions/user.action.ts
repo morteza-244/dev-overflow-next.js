@@ -169,6 +169,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     connectToDatabase();
     const { clerkId, searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = {};
+
     let sortedOptions = {};
     switch (filter) {
       case "most_recent":
@@ -237,7 +238,8 @@ export async function getUserInfo(params: GetUserByIdParams) {
 export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 4 } = params;
+    const skipAmount = (page - 1) * pageSize;
     const totalQuestions = await Question.countDocuments({ author: userId });
     const userQuestions = await Question.find({ author: userId })
       .sort({ views: -1, upVotes: -1 })
@@ -250,8 +252,12 @@ export async function getUserQuestions(params: GetUserStatsParams) {
         path: "author",
         model: User,
         select: "_id clerkId name picture",
-      });
-    return { totalQuestions, userQuestions };
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
+    const totalPages = Math.ceil(totalQuestions / pageSize);
+    const hasMore = totalQuestions > skipAmount + userQuestions.length;
+    return { totalQuestions, userQuestions, totalPages, hasMore };
   } catch (error) {
     console.log(error);
     throw error;
@@ -261,10 +267,13 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDatabase();
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 4 } = params;
     const totalAnswers = await Answer.countDocuments({ author: userId });
+    const skipAmount = (page - 1) * pageSize;
     const userAnswers = await Answer.find({ author: userId })
       .sort({ upVotes: -1 })
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate({
         path: "question",
         model: Question,
@@ -275,7 +284,9 @@ export async function getUserAnswers(params: GetUserStatsParams) {
         model: User,
         select: "_id clerkId name picture",
       });
-    return { totalAnswers, userAnswers };
+    const totalPages = Math.ceil(totalAnswers / pageSize);
+    const hasMore = totalAnswers > skipAmount + userAnswers.length;
+    return { totalAnswers, userAnswers, totalPages, hasMore };
   } catch (error) {
     console.log(error);
     throw error;

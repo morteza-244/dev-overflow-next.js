@@ -1,6 +1,7 @@
 import { getUserQuestions } from "@/lib/actions/user.action";
 import { TQuestion, TSearchParamsProps } from "@/types";
 import QuestionCard from "../cards/QuestionCard";
+import PaginationButton from "./PaginationButton";
 
 interface QuestionTabProps extends TSearchParamsProps {
   userId: string;
@@ -12,14 +13,26 @@ const QuestionTab = async ({
   clerkId,
   searchParams,
 }: QuestionTabProps) => {
-  const data = await getUserQuestions({
-    userId,
-  });
+  const { userQuestions, totalPages, hasMore } =
+    await getUserQuestions({
+      userId,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+    
   return (
     <div className="space-y-3">
-      {data.userQuestions.map((question) => (
-        <QuestionCard key={question._id} question={question as TQuestion} clerkId={clerkId} />
+      {userQuestions.map((question) => (
+        <QuestionCard
+          key={question._id}
+          question={question as TQuestion}
+          clerkId={clerkId}
+        />
       ))}
+      <PaginationButton
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        totalPages={totalPages!}
+        hasMore={hasMore!}
+      />
     </div>
   );
 };
