@@ -21,7 +21,8 @@ import {
 export async function getUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 4 } = params;
+    const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
       query.$or = [
@@ -43,8 +44,14 @@ export async function getUsers(params: GetAllUsersParams) {
       default:
         break;
     }
-    const users = await User.find(query).sort(sortedOptions);
-    return { users };
+    const users = await User.find(query)
+      .sort(sortedOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+    const totalUsers = await User.countDocuments(query);
+    const totalPages = Math.ceil(totalUsers / pageSize);
+    const hasMore = totalUsers > skipAmount + users.length;
+    return { users, totalPages, hasMore };
   } catch (error) {
     console.log(error);
     throw error;

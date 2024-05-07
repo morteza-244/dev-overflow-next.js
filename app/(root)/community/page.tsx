@@ -1,14 +1,16 @@
 import UserCard from "@/components/cards/UserCard";
 import FilterSelector from "@/components/shared/FilterSelector";
+import PaginationButton from "@/components/shared/PaginationButton";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { userFilters } from "@/constants/filters";
 import { getUsers } from "@/lib/actions/user.action";
 import { TSearchParamsProps } from "@/types";
 
 const Community = async ({ searchParams }: TSearchParamsProps) => {
-  const data = await getUsers({
+  const { users, hasMore, totalPages } = await getUsers({
     searchQuery: searchParams.q,
-    filter: searchParams.filter
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
   return (
     <>
@@ -24,12 +26,17 @@ const Community = async ({ searchParams }: TSearchParamsProps) => {
           <FilterSelector filters={userFilters} />
         </div>
         <section className="grid xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 gap-4">
-          {!data.users.length ? (
+          {!users.length ? (
             <p>No users yet</p>
           ) : (
-            data.users.map((user) => <UserCard key={user._id} user={user} />)
+            users.map((user) => <UserCard key={user._id} user={user} />)
           )}
         </section>
+        <PaginationButton
+          hasMore={hasMore!}
+          totalPages={totalPages!}
+          pageNumber={searchParams.page ? +searchParams.page : 1}
+        />
       </div>
     </>
   );
