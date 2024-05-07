@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface PaginationProps {
   pageNumber: number;
   hasMore: boolean;
-  totalPages: number;
+  totalPages?: number;
 }
 
 const PaginationButton = ({
@@ -43,7 +43,7 @@ const PaginationButton = ({
         Next
       </Button>
       <p className="text-sm font-semibold text-dark400_light700">
-        Page {pageNumber} of {totalPages}
+        Page {pageNumber} {totalPages ? `of ${totalPages}` : ""}
       </p>
     </div>
   );

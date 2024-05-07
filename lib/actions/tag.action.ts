@@ -10,8 +10,8 @@ import { GetAllTagsParams, GetQuestionsByTagIdParams } from "./shared.types";
 export async function getTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
-
+    const { searchQuery, filter, page = 1, pageSize = 4 } = params;
+    const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
@@ -33,8 +33,15 @@ export async function getTags(params: GetAllTagsParams) {
       default:
         break;
     }
-    const tags = await Tag.find(query).sort(sortedOptions);
-    return { tags };
+    const tags = await Tag.find(query)
+      .sort(sortedOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const totalTags = await Tag.countDocuments(query);
+    const totalPages = Math.ceil(totalTags / pageSize);
+    const hasMore = totalTags > skipAmount + tags.length;
+    return { tags, totalPages, hasMore };
   } catch (error) {
     console.log(error);
     throw error;
@@ -45,9 +52,9 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
   try {
     connectToDatabase();
 
-    const { tagId, searchQuery } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 1 } = params;
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
-
+    const skipAmount = (page - 1) * pageSize;
     const tag = await Tag.findOne(tagFilter).populate({
       path: "questions",
       model: Question,
@@ -56,6 +63,8 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
         : {},
       options: {
         sort: { createdAt: -1 },
+        skip: skipAmount,
+        limit: pageSize + 1,
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
@@ -68,8 +77,15 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     }
 
     const questions = tag.questions;
+    const totalPages = Math.ceil(tag.questions.length / pageSize);
+    const hasMore = tag.questions.length > pageSize;
 
-    return { tagTitle: tag.name, questions };
+    return {
+      tagTitle: tag.name,
+      questions,
+      hasMore,
+      totalPages,
+    };
   } catch (error) {
     console.log(error);
     throw error;
