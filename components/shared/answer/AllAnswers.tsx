@@ -1,4 +1,5 @@
 import FilterSelector from "@/components/shared/FilterSelector";
+import PaginationButton from "@/components/shared/PaginationButton";
 import { answerFilters } from "@/constants/filters";
 import { getAnswers } from "@/lib/actions/answer.action";
 import { TAnswer } from "@/types";
@@ -20,7 +21,7 @@ const AllAnswers = async ({
   filter,
   page,
 }: AllAnswersProps) => {
-  const data = await getAnswers({
+  const {answers, hasMore, totalPages} = await getAnswers({
     questionId,
     sortBy: filter,
     page: page ? +page : 1,
@@ -33,13 +34,14 @@ const AllAnswers = async ({
         <FilterSelector filters={answerFilters} />
       </div>
       <div className="space-y-3">
-        {data.answers.map((answer) => (
+        {answers.map((answer) => (
           <AnswerCard
             key={answer._id}
             answer={answer as TAnswer}
             userId={userId}
           />
         ))}
+        <PaginationButton hasMore={hasMore!} totalPages={totalPages!} pageNumber={page ? +page : 1}/>
       </div>
     </>
   );
