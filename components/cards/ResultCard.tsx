@@ -24,14 +24,14 @@ const ResultCard = ({data}: ResultCardProps) => {
   return (
     <Link
       href={renderLink(data.type, data.id)}
-      className="flex items-start w-full cursor-pointer px-5 py-2.5 hover:bg-light-700/50 hover:dark:bg-dark-500/50 gap-2 transition-all"
+      className="flex items-start w-full cursor-pointer px-2 sm:px-5 py-2.5 hover:bg-light-700/50 hover:dark:bg-dark-500/50 gap-2 transition-all"
     >
-      <Tag size={20} />
+      <Tag size={18} />
       <div className="flex flex-col">
-        <p className="body-medium text-dark200-light800 line-clamp-1 body-medium">
+        <p className="text-[13px] sm:text-[15px] text-dark200-light800 line-clamp-1">
           {data.title}
         </p>
-        <p className="font-bold text-light400_light500 mt-1 capitalize">
+        <p className="font-semibold text-[14px] sm:text-[16px] text-light400_light500 mt-1 capitalize">
           {data.type}
         </p>
       </div>

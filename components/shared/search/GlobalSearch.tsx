@@ -58,7 +58,7 @@ const GlobalSearch = () => {
     return () => clearTimeout(debounceFn);
   }, [searchText, pathname, router, searchParams, query]);
   return (
-    <div className="relative w-full mx-auto max-w-[570px] max-lg:hidden" ref={ref}>
+    <div className="relative w-full mx-auto lg:max-w-[570px] block" ref={ref}>
       <Search className="absolute top-2 left-1" color="#64748b" />
       <Input
         type="text"
@@ -69,7 +69,7 @@ const GlobalSearch = () => {
           if (e.target.value === "" && isOpen) setIsOpen(false);
         }}
         placeholder="Search globally..."
-        className="h-10 pl-8 bg-slate-200 dark:bg-muted"
+        className="md:h-10 pl-8 bg-slate-200 dark:bg-muted no-focus placeholder border-none outline-none"
       />
       {isOpen && <GlobalSearchResult />}
     </div>

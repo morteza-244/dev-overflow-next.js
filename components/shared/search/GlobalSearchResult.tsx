@@ -37,19 +37,19 @@ const GlobalSearchResult = () => {
   }, [global, type]);
 
   return (
-    <div className="absolute top-full w-full max-h-96 overflow-y-auto mt-3 bg-light-800 dark:bg-dark-400 rounded-md shadow-md pb-2">
+    <div className="absolute top-full w-full h-[260px] sm:max-h-96 overflow-y-auto mt-3 bg-light-800 dark:bg-dark-400 rounded-md shadow-md pb-2">
       <div className="sticky top-0 bg-light-800 dark:bg-dark-400 z-50 pt-4">
         <GlobalFilters />
         <div className="my-4 h-[1px] bg-light-700/100 dark:bg-dark-500/50" />
       </div>
       <div className="space-y-5">
-        <p className="paragraph-semibold text-dark400_light800 px-5">
+        <p className="paragraph-semibold text-dark400_light800 px-2.5 sm:px-5">
           Top Match
         </p>
         {isLoading ? (
           <ResultLoading />
         ) : (
-          <div className="flex flex-col gap-2 ">
+          <div className="flex flex-col gap-2">
             {!data.length ? (
               <div className="flex-center flex-col px-5">
                 <Frown size={30} />

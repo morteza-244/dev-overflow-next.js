@@ -2,6 +2,7 @@ import GlobalSearch from "@/components/shared/search/GlobalSearch";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import MobileGlobalSearch from "../search/MobileGlobalSearch";
 import MobileNav from "./MobileNav";
 import ModeToggle from "./ModeToggle";
 
@@ -25,19 +26,22 @@ const NavBar = () => {
         <GlobalSearch />
       </div>
       <div className="flex-between sm:flex-row-reverse gap-5 w-full md:w-1/6 md:justify-start">
-        <SignedIn>
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                avatarBox: "h-10 w-10",
-              },
-              variables: {
-                colorPrimary: "#ff7000",
-              },
-            }}
-          />
-        </SignedIn>
+        <div className="flex gap-2 items-center">
+          <SignedIn>
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: "h-10 w-10",
+                },
+                variables: {
+                  colorPrimary: "#ff7000",
+                },
+              }}
+            />
+          </SignedIn>
+          <MobileGlobalSearch />
+        </div>
         <div className="flex items-center sm:block">
           <ModeToggle />
           <MobileNav />

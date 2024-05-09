@@ -34,9 +34,9 @@ const GlobalFilters = () => {
     }
   };
   return (
-    <div className="flex items-center gap-5 px-5">
+    <div className="flex sm:items-center  gap-5 px-2.5 sm:px-5">
       <p className="text-text-dark400_light800 body-medium">Type: </p>
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         {globalSearchFilters.map((filter) => (
           <button
             type="button"
