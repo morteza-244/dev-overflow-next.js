@@ -41,7 +41,7 @@ const RightSidebar = async () => {
   const topQuestions = await getTopQuestions();
   const popularTags = await getPopularTags();
   return (
-    <aside className="background-light900_dark200 sticky right-0 top-0 flex flex-col h-screen overflow-y-auto dark:border-gray-700 dark:border-r p-5 shadow-md dark:shadow-none max-xl:hidden w-[350px] custom-scrollbar gap-7">
+    <aside className="background-light900_dark200 sticky right-0 top-0 flex flex-col h-screen overflow-y-auto dark:border-gray-700 dark:border-r p-5 shadow-md dark:shadow-none max-xl:hidden w-[266px] custom-scrollbar gap-7">
       <div>
         <h3 className="h3-bold">Top Questions</h3>
         <div className="flex flex-col w-full gap-7 mt-7">

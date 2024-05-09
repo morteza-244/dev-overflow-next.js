@@ -58,7 +58,7 @@ const GlobalSearch = () => {
     return () => clearTimeout(debounceFn);
   }, [searchText, pathname, router, searchParams, query]);
   return (
-    <div className="relative w-full max-w-[600px] max-lg:hidden" ref={ref}>
+    <div className="relative w-full mx-auto max-w-[570px] max-lg:hidden" ref={ref}>
       <Search className="absolute top-2 left-1" color="#64748b" />
       <Input
         type="text"
