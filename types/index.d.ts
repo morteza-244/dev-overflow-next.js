@@ -70,5 +70,11 @@ export type TRemoveUrlQueryParams = {
   params: string;
 };
 
+export type TSearchResult = {
+  id: string;
+  type: string;
+  title: string;
+};
+
 export type TActions = "QUESTION" | "ANSWER";
 export type TQuestionForm = "EDIT" | "CREATE";
