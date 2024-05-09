@@ -19,10 +19,6 @@ const Home = async ({ searchParams }: TSearchParamsProps) => {
   });
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:hidden">
-        <TopQuestionsCarousel />
-        <PopularTagsCarousel />
-      </div>
       <div className="flex justify-between sm:items-center sm:flex-row flex-col-reverse gap-4">
         <h1 className="h1-bold">All Questions</h1>
         <Link href="/ask-question" className="ms-auto sm:m-0">
@@ -39,6 +35,10 @@ const Home = async ({ searchParams }: TSearchParamsProps) => {
           placeholder="Search for questions"
         />
         <FilterSelector filters={homePageFilters} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:hidden">
+        <TopQuestionsCarousel />
+        <PopularTagsCarousel />
       </div>
       <div className="flex flex-col gap-6 w-full">
         {!questions.length ? (

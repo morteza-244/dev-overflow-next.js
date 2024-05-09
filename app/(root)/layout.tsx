@@ -5,14 +5,16 @@ import { PropsWithChildren } from "react";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <main className="relative bg-light-850 dark:bg-dark-100">
-      <NavBar />
-      <div className="flex">
-        <LeftSidebar />
-        <section className="min-h-screen flex flex-col flex-1 px-5 pb-5 pt-36 overflow-x-auto">
-          <div className="w-full mx-auto max-w-5xl">{children}</div>
-        </section>
-        <RightSidebar />
+    <main className="relative">
+      <div className="container mx-auto p-0">
+        <NavBar />
+        <div className="flex">
+          <LeftSidebar />
+          <section className="min-h-screen flex flex-col flex-1 ml-0 sm:ml-[83px] md:ml-[83px] lg:ml-[266px] p-5 overflow-x-auto">
+            <div className="w-full mx-auto max-w-5xl">{children}</div>
+          </section>
+          <RightSidebar />
+        </div>
       </div>
     </main>
   );

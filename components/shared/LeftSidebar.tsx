@@ -11,7 +11,7 @@ const LeftSidebar = () => {
   const { userId } = useAuth();
 
   return (
-    <section className="background-light900_dark200 sticky left-0 top-0 flex flex-col h-screen justify-between overflow-y-auto dark:border-gray-700 dark:border-r p-5 pt-32 shadow-md dark:shadow-none max-sm:hidden lg:w-[266px] custom-scrollbar">
+    <aside className="background-light900_dark200 fixed top-0 flex flex-col h-screen justify-between overflow-y-auto pt-24 p-5 shadow-md dark:shadow-none max-sm:hidden lg:w-[266px] custom-scrollbar">
       <div className="flex flex-1 flex-col gap-2">
         {sidebarLinks.map((link) => {
           const isActive =
@@ -82,7 +82,7 @@ const LeftSidebar = () => {
           </Link>
         </div>
       </SignedOut>
-    </section>
+    </aside>
   );
 };
 
