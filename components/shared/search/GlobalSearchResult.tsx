@@ -9,7 +9,11 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import GlobalFilters from "./GlobalFilters";
 
-const GlobalSearchResult = () => {
+interface GlobalSearchResultProps {
+  onClose?: (value: boolean) => void;
+}
+
+const GlobalSearchResult = ({ onClose }: GlobalSearchResultProps) => {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<TSearchResult[]>([]);
@@ -37,8 +41,8 @@ const GlobalSearchResult = () => {
   }, [global, type]);
 
   return (
-    <div className="absolute top-full w-full h-[260px] sm:max-h-96 overflow-y-auto mt-3 bg-light-800 dark:bg-dark-400 rounded-md shadow-md pb-2">
-      <div className="sticky top-0 bg-light-800 dark:bg-dark-400 z-50 pt-4">
+    <div className="absolute top-full w-full h-[274px] sm:max-h-96 overflow-y-auto md:mt-3 bg-light-800 md:dark:bg-dark-400 dark:bg-inherit rounded-b-md md:rounded-md shadow-md pb-2">
+      <div className="sticky top-0 bg-light-800 md:dark:bg-dark-400 dark:bg-dark-300 z-50 pt-4">
         <GlobalFilters />
         <div className="my-4 h-[1px] bg-light-700/100 dark:bg-dark-500/50" />
       </div>
@@ -59,7 +63,11 @@ const GlobalSearchResult = () => {
               </div>
             ) : (
               data.map((item, index) => (
-                <ResultCard key={item.type + item.id + index} data={item} />
+                <ResultCard
+                  key={item.type + item.id + index}
+                  data={item}
+                  onClose={onClose}
+                />
               ))
             )}
           </div>

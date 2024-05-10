@@ -1,12 +1,12 @@
 import { TSearchResult } from "@/types";
-import { Tag } from "lucide-react";
 import Link from "next/link";
-
+import Image from 'next/image'
 interface ResultCardProps {
   data: TSearchResult;
+  onClose?: (value: boolean) => void;
 }
 
-const ResultCard = ({data}: ResultCardProps) => {
+const ResultCard = ({ data, onClose }: ResultCardProps) => {
   const renderLink = (type: string, id: string) => {
     switch (type) {
       case "question":
@@ -21,12 +21,23 @@ const ResultCard = ({data}: ResultCardProps) => {
         return "/";
     }
   };
+
+  const onCloseModal = () => {
+    if (onClose) onClose(false);
+  };
   return (
     <Link
       href={renderLink(data.type, data.id)}
-      className="flex items-start w-full cursor-pointer px-2 sm:px-5 py-2.5 hover:bg-light-700/50 hover:dark:bg-dark-500/50 gap-2 transition-all"
+      onClick={onCloseModal}
+      className="flex items-start w-full cursor-pointer px-2 sm:px-5 py-2.5 hover:bg-light-700/50 hover:dark:bg-dark-500/100 gap-2 transition-all"
     >
-      <Tag size={18} />
+      <Image
+        src="/assets/icons/tag.svg"
+        alt="tags"
+        width={18}
+        height={18}
+        className="invert-colors mt-1 object-contain"
+      />
       <div className="flex flex-col">
         <p className="text-[13px] sm:text-[15px] text-dark200-light800 line-clamp-1">
           {data.title}

@@ -6,7 +6,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import GlobalSearchResult from "./GlobalSearchResult";
 
-const GlobalSearch = () => {
+interface GlobalSearchProps {
+  onClose?: (value: boolean) => void;
+}
+
+const GlobalSearch = ({ onClose }: GlobalSearchProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -59,19 +63,24 @@ const GlobalSearch = () => {
   }, [searchText, pathname, router, searchParams, query]);
   return (
     <div className="relative w-full mx-auto lg:max-w-[570px] block" ref={ref}>
-      <Search className="absolute top-2 left-1" color="#64748b" />
+      <Search
+        className="absolute top-4 left-2 md:top-2 md:left-1"
+        color="#64748b"
+      />
       <Input
         type="text"
         value={searchText}
         onChange={(e) => {
           setSearchText(e.target.value);
           if (!isOpen) setIsOpen(true);
-          if (e.target.value === "" && isOpen) setIsOpen(false);
+          if (e.target.value === "" && isOpen) {
+            setIsOpen(false);
+          }
         }}
         placeholder="Search globally..."
-        className="md:h-10 pl-8 bg-slate-200 dark:bg-muted no-focus placeholder border-none outline-none"
+        className="h-14 pl-9 pr-9 md:pr-0 md:h-10 md:pl-8 rounded-t-md rounded-b-none md:rounded-md bg-slate-200 dark:bg-inherit md:dark:bg-muted no-focus placeholder border-b outline-none"
       />
-      {isOpen && <GlobalSearchResult />}
+      {isOpen && <GlobalSearchResult onClose={onClose} />}
     </div>
   );
 };
