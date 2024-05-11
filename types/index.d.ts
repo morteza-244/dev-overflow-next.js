@@ -1,5 +1,5 @@
+import { BADGE_CRITERIA } from "@/constants";
 import { Schema } from "mongoose";
-
 export interface SidebarLink {
   imgURL: string;
   route: string;
@@ -76,5 +76,19 @@ export type TSearchResult = {
   title: string;
 };
 
+export type TBadges = {
+  criteria: {
+    count: number;
+    type: keyof typeof BADGE_CRITERIA;
+  }[];
+};
+
+export interface TBadgeCounts {
+  GOLD: number;
+  SILVER: number;
+  BRONZE: number;
+}
+
 export type TActions = "QUESTION" | "ANSWER";
 export type TQuestionForm = "EDIT" | "CREATE";
+export type TBadgeCriteria = keyof typeof BADGE_CRITERIA;

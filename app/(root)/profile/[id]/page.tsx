@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const UserProfile = async ({ params, searchParams }: TUrlParams) => {
   const { userId } = auth();
-  const data = await getUserInfo({
+  const {user, badgeCounts, totalQuestions, totalAnswers} = await getUserInfo({
     userId: params.id,
   });
   return (
@@ -23,7 +23,7 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">
         <div className="flex flex-col items-start gap-4 lg:flex-row">
           <Image
-            src={data?.user.picture}
+            src={user.picture}
             alt="profile picture"
             width={140}
             height={140}
@@ -32,37 +32,37 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
 
           <div className="mt-3">
             <h2 className="text-[16px] sm:text-[20px] font-bold text-dark100_light900">
-              {data.user.name}
+              {user.name}
             </h2>
             <p className="paragraph-regular text-dark200_light800">
-              @{data.user.username}
+              @{user.username}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
-              {data.user.portfolioWebsite && (
+              {user.portfolioWebsite && (
                 <ProfileLink
                   icon={<LinkIcon size={20} />}
-                  href={data.user.portfolioWebsite}
+                  href={user.portfolioWebsite}
                   title="Portfolio"
                 />
               )}
 
-              {data.user.location && (
+              {user.location && (
                 <ProfileLink
                   icon={<MapPin size={20} />}
-                  title={data.user.location}
+                  title={user.location}
                 />
               )}
 
               <ProfileLink
                 icon={<CalendarDays size={20} />}
-                title={getJoinedDate(data.user.joinedAt)}
+                title={getJoinedDate(user.joinedAt)}
               />
             </div>
 
-            {data.user.bio && (
+            {user.bio && (
               <p className="paragraph-regular text-dark400_light800 mt-8">
-                {data.user.bio}
+                {user.bio}
               </p>
             )}
           </div>
@@ -70,7 +70,7 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
 
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
           <SignedIn>
-            {userId === data.user.clerkId && (
+            {userId === user.clerkId && (
               <Link href="/profile/edit">
                 <Button
                   size={"sm"}
@@ -86,8 +86,10 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
       </div>
 
       <Stats
-        totalQuestions={data.totalQuestions}
-        totalAnswers={data.totalAnswers}
+        totalQuestions={totalQuestions}
+        totalAnswers={totalAnswers}
+        badges={badgeCounts}
+        reputation={user.reputation}
       />
 
       <div className="mt-10 flex gap-10">
@@ -102,14 +104,14 @@ const UserProfile = async ({ params, searchParams }: TUrlParams) => {
           </TabsList>
           <TabsContent value="top-posts">
             <QuestionTab
-              userId={data?.user._id}
+              userId={user._id}
               clerkId={userId}
               searchParams={searchParams}
             />
           </TabsContent>
           <TabsContent value="answers">
             <AnswerTab
-              userId={data?.user._id}
+              userId={user._id}
               clerkId={userId}
               searchParams={searchParams}
             />

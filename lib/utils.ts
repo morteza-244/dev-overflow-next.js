@@ -1,4 +1,10 @@
-import { TRemoveUrlQueryParams, TUrlQueryParams } from "@/types";
+import { BADGE_CRITERIA } from "@/constants";
+import {
+  TBadgeCounts,
+  TBadges,
+  TRemoveUrlQueryParams,
+  TUrlQueryParams,
+} from "@/types";
 import { type ClassValue, clsx } from "clsx";
 import queryString from "query-string";
 import { twMerge } from "tailwind-merge";
@@ -105,4 +111,23 @@ export const removeKeysFromQuery = ({
     },
     { skipNull: true }
   );
+};
+
+export const assignBadges = (params: TBadges) => {
+  const badgeCounts: TBadgeCounts = {
+    SILVER: 0,
+    GOLD: 0,
+    BRONZE: 0,
+  };
+  const { criteria } = params;
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    const badgeLevels = BADGE_CRITERIA[type];
+    Object.keys(badgeLevels).forEach((level) => {
+      if (count >= badgeLevels[level as keyof typeof badgeLevels]) {
+        badgeCounts[level as keyof TBadgeCounts] += 1;
+      }
+    });
+  });
+  return badgeCounts;
 };

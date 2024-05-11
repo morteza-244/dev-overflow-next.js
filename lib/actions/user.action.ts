@@ -4,9 +4,11 @@ import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
+import { TBadgeCriteria } from "@/types";
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
+import { assignBadges } from "../utils";
 import {
   CreateUserParams,
   DeleteUserParams,
@@ -228,7 +230,69 @@ export async function getUserInfo(params: GetUserByIdParams) {
     });
     const totalQuestions = await Question.countDocuments({ author: user._id });
     const totalAnswers = await Answer.countDocuments({ author: user._id });
-    return { user, totalQuestions, totalAnswers };
+
+    const [questionUpVotes] = await Question.aggregate([
+      { $match: { author: user._id } },
+      {
+        $project: {
+          _id: 0,
+          upVotes: { $size: "$upVotes" },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalUpVotes: { $sum: "$upVotes" },
+        },
+      },
+    ]);
+
+    const [answerUpVotes] = await Answer.aggregate([
+      { $match: { author: user._id } },
+      {
+        $project: {
+          _id: 0,
+          upVotes: { $size: "$upVotes" },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalUpVotes: { $sum: "$upVotes" },
+        },
+      },
+    ]);
+
+    const [questionViews] = await Answer.aggregate([
+      { $match: { author: user._id } },
+      {
+        $group: {
+          _id: null,
+          totalViews: { $sum: "$views" },
+        },
+      },
+    ]);
+
+    const criteria: { type: TBadgeCriteria; count: number }[] = [
+      { type: "QUESTION_COUNT", count: totalQuestions },
+      { type: "ANSWER_COUNT", count: totalAnswers },
+      {
+        type: "QUESTION_UP_VOTES",
+        count: questionUpVotes?.totalUpVotes || 0,
+      },
+      {
+        type: "ANSWER_UP_VOTES",
+        count: answerUpVotes?.totalUpVotes || 0,
+      },
+      {
+        type: "TOTAL_VIEWS",
+        count: questionViews?.totalViews || 0,
+      },
+    ];
+
+    const badgeCounts = assignBadges({ criteria });
+
+    return { user, totalQuestions, totalAnswers, badgeCounts };
   } catch (error) {
     console.log(error);
     throw new Error(" User not found: " + params.userId);
