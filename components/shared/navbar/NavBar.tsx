@@ -1,10 +1,11 @@
 import GlobalSearch from "@/components/shared/search/GlobalSearch";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import MobileGlobalSearch from "../search/MobileGlobalSearch";
 import MobileNav from "./MobileNav";
 import ModeToggle from "./ModeToggle";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const NavBar = () => {
   return (
@@ -27,20 +28,25 @@ const NavBar = () => {
       </div>
       <div className="flex-between sm:flex-row-reverse gap-3 w-full sm:w-auto md:w-1/6 md:justify-start">
         <div className="flex gap-2 sm:flex-row-reverse items-center">
-          <SignedIn>
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: "h-10 w-10",
-                },
-                variables: {
-                  colorPrimary: "#ff7000",
-                },
-              }}
-            />
-          </SignedIn>
-        <MobileGlobalSearch />
+          <ClerkLoading>
+            <Skeleton className="w-10 h-10 rounded-full" />
+          </ClerkLoading>
+          <ClerkLoaded>
+            <SignedIn>
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: "h-10 w-10",
+                  },
+                  variables: {
+                    colorPrimary: "#ff7000",
+                  },
+                }}
+              />
+            </SignedIn>
+          </ClerkLoaded>
+          <MobileGlobalSearch />
         </div>
         <div className="flex items-center sm:block">
           <ModeToggle />
