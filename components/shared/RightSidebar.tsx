@@ -5,38 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import RenderTag from "./RenderTag";
 
-const topQuestions = [
-  {
-    _id: 1,
-    title:
-      "Would it be appropriate to point out an error in another paper during a referee report?",
-  },
-  {
-    _id: 2,
-    title: "How can an airconditioning machine exist?",
-  },
-  {
-    _id: 3,
-    title: "Interrogated every time crossing UK Border as citizen",
-  },
-  {
-    _id: 4,
-    title: "Low digit addition generator",
-  },
-  {
-    _id: 5,
-    title: "What is an example of 3 numbers that do not make up a vector?",
-  },
-];
-
-const tags = [
-  { _id: "1", name: "javaScript" },
-  { _id: "2", name: "react.js" },
-  { _id: "3", name: "next.js" },
-  { _id: "4", name: "typeScript" },
-  { _id: "5", name: "vue.js" },
-];
-
 const RightSidebar = async () => {
   const topQuestions = await getTopQuestions();
   const popularTags = await getPopularTags();
