@@ -5,6 +5,27 @@ import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { userFilters } from "@/constants/filters";
 import { getUsers } from "@/lib/actions/user.action";
 import { TSearchParamsProps } from "@/types";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Community | Dev Overflow",
+  description:
+    "Explore the vibrant community of developers on Dev Overflow. Meet fellow coders, share knowledge, and collaborate on projects.",
+  keywords: [
+    "Dev Overflow",
+    "community",
+    "Next.js",
+    "Stack Overflow",
+    "developers",
+    "programming",
+    "collaboration",
+  ],
+  authors: {
+    name: "Morteza Sadeghi",
+    url: "https://dev-overflow-next-js.vercel.app/",
+  },
+  robots: "index, follow",
+};
 
 const Community = async ({ searchParams }: TSearchParamsProps) => {
   const { users, hasMore, totalPages } = await getUsers({

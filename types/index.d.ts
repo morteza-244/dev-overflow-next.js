@@ -89,6 +89,12 @@ export interface TBadgeCounts {
   BRONZE: number;
 }
 
+export type TParams = {
+  params: {
+    id: string;
+  };
+};
+
 export type TActions = "QUESTION" | "ANSWER";
 export type TQuestionForm = "EDIT" | "CREATE";
 export type TBadgeCriteria = keyof typeof BADGE_CRITERIA;

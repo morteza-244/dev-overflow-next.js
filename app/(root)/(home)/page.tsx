@@ -9,7 +9,27 @@ import { Button } from "@/components/ui/button";
 import { homePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
 import { TQuestion, TSearchParamsProps } from "@/types";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+  description:
+    "Welcome to Dev Overflow, the community-driven platform for developers to ask, answer, and learn together.",
+  keywords: [
+    "Dev Overflow",
+    "Next.js",
+    "Stack Overflow",
+    "development",
+    "programming",
+    "community",
+  ],
+  authors: {
+    name: "Morteza Sadeghi",
+    url: "https://dev-overflow-next-js.vercel.app/",
+  },
+  robots: "index, follow",
+};
 
 const Home = async ({ searchParams }: TSearchParamsProps) => {
   const { questions, hasMore, totalPages } = await getQuestions({

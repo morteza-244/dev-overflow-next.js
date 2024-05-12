@@ -10,14 +10,49 @@ import { TUrlParams } from "@/types";
 import { SignedIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { CalendarDays, Link as LinkIcon, MapPin } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-const UserProfile = async ({ params, searchParams }: TUrlParams) => {
-  const { userId } = auth();
-  const {user, badgeCounts, totalQuestions, totalAnswers} = await getUserInfo({
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { user } = await getUserInfo({
     userId: params.id,
   });
+
+  return {
+    title: `${user.name} | Profile - Dev Overflow`,
+    description:
+      user.bio || `Welcome to ${user.username}'s profile on Dev Overflow.`,
+    keywords: [
+      "Dev Overflow",
+      "user profile",
+      user.username,
+      "Next.js",
+      "Stack Overflow",
+      "development",
+      "programming",
+    ],
+    authors: {
+      name: "Morteza Sadeghi",
+      url: "https://dev-overflow-next-js.vercel.app/",
+    },
+    robots: "index, follow",
+  };
+}
+
+const UserProfile = async ({ params, searchParams }: TUrlParams) => {
+  const { userId } = auth();
+  const { user, badgeCounts, totalQuestions, totalAnswers } = await getUserInfo(
+    {
+      userId: params.id,
+    }
+  );
   return (
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">

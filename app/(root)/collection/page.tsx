@@ -6,6 +6,26 @@ import { questionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { TQuestion, TSearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Saved Questions | Dev Overflow",
+  description:
+    "View and manage your saved questions on Dev Overflow. Keep track of your favorite coding challenges and revisit them anytime for solutions and inspiration.",
+  keywords: [
+    "Dev Overflow",
+    "saved questions",
+    "Next.js",
+    "Stack Overflow",
+    "development",
+    "programming",
+  ],
+  authors: {
+    name: "Morteza Sadeghi",
+    url: "https://dev-overflow-next-js.vercel.app/",
+  },
+  robots: "index, follow",
+};
 
 const Collection = async ({ searchParams }: TSearchParamsProps) => {
   const { userId } = auth();

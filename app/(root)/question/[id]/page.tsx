@@ -7,10 +7,38 @@ import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
-import { Tag, TUrlParams } from "@/types";
+import { Tag, TParams, TUrlParams } from "@/types";
 import { auth } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export async function generateQuestionMetadata({
+  params,
+}: TParams): Promise<Metadata> {
+  const question = await getQuestionById({
+    questionId: params.id,
+  });
+
+  return {
+    title: `${question.title} | Dev Overflow`,
+    description: `Explore the question titled "${question.title}" on Dev Overflow.`,
+    keywords: [
+      "Dev Overflow",
+      "question detail",
+      question.title,
+      "Next.js",
+      "Stack Overflow",
+      "development",
+      "programming",
+    ],
+    authors: {
+      name: "Morteza Sadeghi",
+      url: "https://dev-overflow-next-js.vercel.app/",
+    },
+    robots: "index, follow",
+  };
+}
 
 const QuestionDetail = async ({ params, searchParams }: TUrlParams) => {
   const { userId: clerkId } = auth();
