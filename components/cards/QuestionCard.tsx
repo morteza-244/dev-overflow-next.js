@@ -43,7 +43,7 @@ const QuestionCard = ({ question, clerkId }: QuestionCardProps) => {
           imgUrl={author.picture}
           alt="avatar"
           value={author.name}
-          href={`/profile/${author._id}`}
+          href={`/profile/${author.clerkId}`}
           isAuthor
           title={` - asked ${getTimestamp(createdAt)}`}
         />

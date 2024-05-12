@@ -12,26 +12,26 @@ import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
-
-
 const QuestionDetail = async ({ params, searchParams }: TUrlParams) => {
   const { userId: clerkId } = auth();
   const data = await getQuestionById({
     questionId: params.id,
   });
 
-  console.log(data)
+  let currentUser;
 
-  const currentUser = await getUserById({
-    userId: clerkId!,
-  });
+  if (clerkId) {
+    currentUser = await getUserById({
+      userId: clerkId,
+    });
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-start items-center w-full flex-col">
         <div className="w-full flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
-            href={`/profile/${data.author._id}`}
+            href={`/profile/${data.author.clerkId}`}
             className="flex items-center justify-start gap-1"
           >
             <Image
@@ -49,11 +49,11 @@ const QuestionDetail = async ({ params, searchParams }: TUrlParams) => {
             <Votes
               type="Question"
               itemId={JSON.stringify(data._id)}
-              userId={JSON.stringify(currentUser._id)}
+              userId={JSON.stringify(currentUser?._id)}
               upVotes={data.upVotes.length}
-              hasUpVoted={data.upVotes.includes(currentUser._id)}
+              hasUpVoted={data.upVotes.includes(currentUser?._id)}
               downVotes={data.downVotes.length}
-              hasDownVoted={data.downVotes.includes(currentUser._id)}
+              hasDownVoted={data.downVotes.includes(currentUser?._id)}
               hasSaved={currentUser?.saved.includes(data._id)}
             />
           </div>
@@ -91,13 +91,13 @@ const QuestionDetail = async ({ params, searchParams }: TUrlParams) => {
       <AllAnswers
         questionId={data._id}
         totalAnswers={data.answers.length}
-        userId={currentUser._id}
+        userId={currentUser?._id}
         filter={searchParams.filter}
         page={Number(searchParams.page)}
       />
       <AnswerForm
         questionId={JSON.stringify(data._id)}
-        authorId={JSON.stringify(currentUser._id)}
+        authorId={JSON.stringify(currentUser?._id)}
       />
     </div>
   );
