@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import SubmitLoading from "../shared/SubmitLoading";
 import { Editor } from "@tinymce/tinymce-react";
 import { useTheme } from "next-themes";
+import { toast } from "sonner";
 
 interface AnswerFormProps {
   authorId: string;
@@ -28,7 +29,6 @@ const AnswerForm = ({ authorId, questionId }: AnswerFormProps) => {
   const editorRef = useRef(null);
   const { theme } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const form = useForm<TAnswerFormData>({
     resolver: zodResolver(answerSchema),
     defaultValues: {
@@ -45,8 +45,9 @@ const AnswerForm = ({ authorId, questionId }: AnswerFormProps) => {
         path: pathname,
         question: JSON.parse(questionId),
       });
+      toast.success("Your answer has been successfully added");
     } catch (error) {
-      setErrorMessage("Your answer was not sent");
+      console.log(error)
     } finally {
       setIsSubmitting(false);
     }
@@ -58,7 +59,6 @@ const AnswerForm = ({ authorId, questionId }: AnswerFormProps) => {
         <h4 className="text-dark500_light700 paragraph-semibold">
           Write your answer here
         </h4>
-        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         <Button size={"sm"} variant={"secondary"} className="text-primary-500">
           <Sparkles size={20} className="mr-2" />
           Generate an AI Answer

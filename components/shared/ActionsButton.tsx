@@ -7,6 +7,7 @@ import { TActions } from "@/types";
 import { Pencil, Trash2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import SubmitLoading from "./SubmitLoading";
 
 interface ActionsButtonProps {
@@ -26,15 +27,18 @@ const ActionsButton = ({ type, itemId }: ActionsButtonProps) => {
           questionId: itemId,
           path: pathname,
         });
+        toast.success("Your question has been successfully removed");
       } else {
         await deleteAnswer({
           answerId: itemId,
           path: pathname,
         });
+        toast.success("Your answer has been successfully removed");
       }
-      setIsPending(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsPending(false);
     }
   };
   const handleEdit = () => {

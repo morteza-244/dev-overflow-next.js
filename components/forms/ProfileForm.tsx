@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface ProfileFormProps {
   userId: string | null;
@@ -53,6 +54,7 @@ const ProfileForm = ({ userId, currentUser }: ProfileFormProps) => {
         path: pathname,
       });
       router.back();
+      toast.success("Your profile has been updated successfully")
     } catch (error) {
       console.log(error);
     } finally {

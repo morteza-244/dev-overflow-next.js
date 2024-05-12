@@ -1,6 +1,7 @@
 import LeftSidebar from "@/components/shared/LeftSidebar";
 import NavBar from "@/components/shared/navbar/NavBar";
 import RightSidebar from "@/components/shared/RightSidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { PropsWithChildren } from "react";
 
 const Layout = ({ children }: PropsWithChildren) => {
@@ -15,6 +16,7 @@ const Layout = ({ children }: PropsWithChildren) => {
           </section>
           <RightSidebar />
         </div>
+        <Toaster richColors={true} position="top-center" duration={2000} />
       </div>
     </main>
   );

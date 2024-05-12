@@ -4,7 +4,6 @@ import PaginationButton from "@/components/shared/PaginationButton";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { TQuestion, TUrlParams } from "@/types";
-import Loading from "./loading";
 
 const TagsDetail = async ({ params, searchParams }: TUrlParams) => {
   const { hasMore, questions, tagTitle } =
@@ -14,8 +13,6 @@ const TagsDetail = async ({ params, searchParams }: TUrlParams) => {
       page: searchParams.page ? +searchParams.page : 1,
     });
 
-  const isLoading = true;
-  if (isLoading) return <Loading />;
   return (
     <div className="space-y-6">
       <h1 className="h1-bold">{tagTitle}</h1>

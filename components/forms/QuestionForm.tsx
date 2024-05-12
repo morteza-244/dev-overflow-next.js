@@ -22,6 +22,7 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import { KeyboardEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface QuestionFormProps {
   currentUserId: string;
@@ -61,6 +62,7 @@ const QuestionForm = ({
           path: pathname,
           questionId: question._id,
         });
+        toast.success("Your question has been edited successfully");
         router.push(`/question/${question._id}`);
       } else {
         await createQuestion({
@@ -70,6 +72,7 @@ const QuestionForm = ({
           author: JSON.parse(currentUserId),
           path: pathname,
         });
+        toast.success("Your question has been created successfully");
         router.push("/");
       }
     } catch (error) {

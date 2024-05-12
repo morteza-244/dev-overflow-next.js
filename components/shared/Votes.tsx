@@ -10,6 +10,7 @@ import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 type TAction = "DOWN_VOTE" | "UP_VOTE";
 interface VotesProps {
@@ -36,7 +37,6 @@ const Votes = ({
   const pathname = usePathname();
   const router = useRouter();
 
-
   useEffect(() => {
     viewQuestion({
       userId: userId ? JSON.parse(userId) : undefined,
@@ -50,9 +50,15 @@ const Votes = ({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),
     });
+    return toast.success(
+      `Question ${!hasSaved ? "Saved in" : "Removed from"} your collection`
+    );
   };
   const handleVote = async (action: TAction) => {
-    if (!userId) return;
+    if (!userId)
+      return toast.warning("Please log in", {
+        description: "You must be logged in to perform this action.",
+      });
     if (action === "UP_VOTE") {
       if (type === "Question") {
         await upVoteQuestion({
@@ -71,6 +77,9 @@ const Votes = ({
           path: pathname,
         });
       }
+      return toast.success(
+        `UpVote ${!hasUpVoted ? "Successful" : "Removed"}`
+      );
     }
     if (action === "DOWN_VOTE") {
       if (type === "Question") {
@@ -90,6 +99,9 @@ const Votes = ({
           path: pathname,
         });
       }
+      return toast.success(
+        `DownVote ${!hasDownVoted ? "Successful" : "Removed"}`
+      );
     }
   };
 
